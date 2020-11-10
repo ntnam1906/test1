@@ -129,6 +129,11 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
+        try {
+            Thread.sleep(50);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         entities.forEach(Entity::update);
     }
 
