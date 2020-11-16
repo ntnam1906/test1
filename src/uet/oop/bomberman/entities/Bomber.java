@@ -11,13 +11,11 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
 
-    private static double speedX = 0.2;
+    private static double speedX = 0.04;
 
-    private static double speedY = 0.2;
+    private static double speedY = 0.04;
 
     private int east, west, north, south;
-
-   // protected Keyboard keyboard;
 
     public static double getSpeedX() {
         return speedX;
@@ -35,6 +33,14 @@ public class Bomber extends Entity {
         Bomber.speedY = speedY;
     }
 
+    public int getLocationX() {
+        return (int) (x + 0.4);
+    }
+
+    public int getLocationY() {
+        return (int) (y + 0.5);
+    }
+
     public Bomber(double x, double y, Image img) {
         super( x, y, img);
     }
@@ -46,7 +52,7 @@ public class Bomber extends Entity {
         south = 0;
         x += speedX;
         int intX = (int) x + 1;
-        int intY = (int) (y + 32.0/Sprite.SCALED_SIZE - 0.01);
+        int intY = (int) (y + 32.0/Sprite.SCALED_SIZE - 0.02);
         boolean checkImg = false;
         if (BombermanGame.map[intY].charAt(intX) == '#'
                 || BombermanGame.map[intY].charAt(intX) == '*') {
@@ -55,7 +61,7 @@ public class Bomber extends Entity {
                 checkImg = true;
             }
         }
-        intY = (int) (y + 0.01);
+        intY = (int) (y + 0.08);
         if (BombermanGame.map[intY].charAt(intX) == '#'
                 || BombermanGame.map[intY].charAt(intX) == '*') {
             if (x + 24.0/Sprite.SCALED_SIZE >= intX) {
@@ -65,7 +71,7 @@ public class Bomber extends Entity {
         }
         if (checkImg) {
             img = Sprite.player_right.getFxImage();
-        } else if (east % 2 == 0) {
+        } else if (east % 8 <= 3) {
             img = Sprite.player_right_1.getFxImage();
         } else {
             img = Sprite.player_right_2.getFxImage();
@@ -79,7 +85,7 @@ public class Bomber extends Entity {
         south = 0;
         x -= speedX;
         int intX = (int) x;
-        int intY = (int) (y + 32.0/Sprite.SCALED_SIZE - 0.01);
+        int intY = (int) (y + 32.0/Sprite.SCALED_SIZE - 0.02);
         boolean checkImg = false;
         if (BombermanGame.map[intY].charAt(intX) == '#'
                 || BombermanGame.map[intY].charAt(intX) == '*') {
@@ -88,7 +94,7 @@ public class Bomber extends Entity {
                 checkImg = true;
             }
         }
-        intY = (int) (y + 0.01);
+        intY = (int) (y + 0.08);
         if (BombermanGame.map[intY].charAt(intX) == '#'
                 || BombermanGame.map[intY].charAt(intX) == '*') {
             if (x <= intX + 1) {
@@ -98,7 +104,7 @@ public class Bomber extends Entity {
         }
         if (checkImg) {
             img = Sprite.player_left.getFxImage();
-        } else if (west % 2 == 0) {
+        } else if (west % 8 <= 3) {
             img = Sprite.player_left_1.getFxImage();
         } else {
             img = Sprite.player_left_2.getFxImage();
@@ -131,7 +137,7 @@ public class Bomber extends Entity {
         }
         if (checkImg) {
             img = Sprite.player_up.getFxImage();
-        } else if (west % 2 == 0) {
+        } else if (north % 8 <= 3) {
             img = Sprite.player_up_1.getFxImage();
         } else {
             img = Sprite.player_up_2.getFxImage();
@@ -164,7 +170,7 @@ public class Bomber extends Entity {
         }
         if (checkImg) {
             img = Sprite.player_down.getFxImage();
-        } else if (west % 2 == 0) {
+        } else if (south % 8 <= 3) {
             img = Sprite.player_down_1.getFxImage();
         } else {
             img = Sprite.player_down_2.getFxImage();
@@ -190,6 +196,5 @@ public class Bomber extends Entity {
             else if (north > 0) img = Sprite.player_up.getFxImage();
             else if (south > 0) img = Sprite.player_down.getFxImage();
         }
-
     }
 }

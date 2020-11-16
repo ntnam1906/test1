@@ -12,6 +12,30 @@ public abstract class Entity {
     protected double y;
     protected Image img;
 
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public Image getImg() {
+        return img;
+    }
+
+    public void setImg(Image img) {
+        this.img = img;
+    }
+
     public Entity(double x, double y, Image img) {
         this.x = x;
         this.y = y;
