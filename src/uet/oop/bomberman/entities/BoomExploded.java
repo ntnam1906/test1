@@ -11,7 +11,7 @@ public class BoomExploded extends Entity {
         return timing;
     }
 
-    public BoomExploded(double x, double y, Image img, char typeExplosion) {
+    public BoomExploded(int x, int y, Image img, char typeExplosion) {
         super(x, y, img);
         this.typeExplosion = typeExplosion;
     }

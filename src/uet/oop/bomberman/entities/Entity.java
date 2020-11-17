@@ -8,23 +8,23 @@ import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
-    protected double x;
-    protected double y;
+    protected int x;
+    protected int y;
     protected Image img;
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -36,14 +36,14 @@ public abstract class Entity {
         this.img = img;
     }
 
-    public Entity(double x, double y, Image img) {
-        this.x = x;
-        this.y = y;
+    public Entity(int x, int y, Image img) {
+        this.x = x * Sprite.SCALED_SIZE;
+        this.y = y * Sprite.SCALED_SIZE;
         this.img = img;
     }
 
     public void render(GraphicsContext gc) {
-        gc.drawImage(img, x * Sprite.SCALED_SIZE, y * Sprite.SCALED_SIZE);
+        gc.drawImage(img, x, y);
     }
     public abstract void update();
 }

@@ -11,62 +11,58 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
 
-    private static double speedX = 0.04;
-
-    private static double speedY = 0.04;
-
     private int east, west, north, south;
+    private int speed = 2;
 
-    public static double getSpeedX() {
-        return speedX;
-    }
-
-    public static void setSpeedX(double speedX) {
-        Bomber.speedX = speedX;
-    }
-
-    public static double getSpeedY() {
-        return speedY;
-    }
-
-    public static void setSpeedY(double speedY) {
-        Bomber.speedY = speedY;
-    }
-
-    public int getLocationX() {
-        return (int) (x + 0.4);
-    }
-
-    public int getLocationY() {
-        return (int) (y + 0.5);
-    }
-
-    public Bomber(double x, double y, Image img) {
+    public Bomber(int x, int y, Image img) {
         super( x, y, img);
     }
 
+    public int getLocationX() {
+        return (x + 11) / Sprite.SCALED_SIZE;
+    }
+
+    public int getLocationY() {
+        return (y + 16) / Sprite.SCALED_SIZE;
+    }
     public void goEast() {
         east++;
         west = 0;
         north = 0;
         south = 0;
-        x += speedX;
-        int intX = (int) x + 1;
-        int intY = (int) (y + 32.0/Sprite.SCALED_SIZE - 0.02);
         boolean checkImg = false;
-        if (BombermanGame.map[intY].charAt(intX) == '#'
-                || BombermanGame.map[intY].charAt(intX) == '*') {
-            if (x + 24.0/Sprite.SCALED_SIZE >= intX) {
-                x = intX - 24.0/Sprite.SCALED_SIZE;
+        x += speed;
+        if (y % Sprite.SCALED_SIZE == 0) {
+            int X = (x + 24) / Sprite.SCALED_SIZE;
+            int Y = y / Sprite.SCALED_SIZE;
+            if (BombermanGame.map[Y].charAt(X) == '#'
+                    || BombermanGame.map[Y].charAt(X) == '*') {
                 checkImg = true;
+                x = X * Sprite.SCALED_SIZE - 24;
             }
-        }
-        intY = (int) (y + 0.08);
-        if (BombermanGame.map[intY].charAt(intX) == '#'
-                || BombermanGame.map[intY].charAt(intX) == '*') {
-            if (x + 24.0/Sprite.SCALED_SIZE >= intX) {
-                x = intX - 24.0/Sprite.SCALED_SIZE;
-                checkImg = true;
+        } else {
+            int X = (x + 24) / Sprite.SCALED_SIZE;
+            int Y1 = (y + 5) / Sprite.SCALED_SIZE;
+            int Y2 = y / Sprite.SCALED_SIZE;
+            int Y3 = (y + 27) / Sprite.SCALED_SIZE;
+            int Y4 = (y + 32) / Sprite.SCALED_SIZE;
+            if (BombermanGame.map[Y2].charAt(X) == '#'
+                    || BombermanGame.map[Y2].charAt(X) == '*') {
+                if (BombermanGame.map[Y1].charAt(X) != '#'
+                        && BombermanGame.map[Y1].charAt(X) != '*') {
+                    y = Y1 * Sprite.SCALED_SIZE;
+                } else {
+                    checkImg = true;
+                    x = X * Sprite.SCALED_SIZE - 24;
+                }
+            } else if (BombermanGame.map[Y4].charAt(X) == '#'
+                    || BombermanGame.map[Y4].charAt(X) == '*') {
+                if (BombermanGame.map[Y3].charAt(X) != '#'
+                        && BombermanGame.map[Y3].charAt(X) != '*') {
+                    y = Y3 * Sprite.SCALED_SIZE;
+                } else {
+                    x = X *Sprite.SCALED_SIZE - 24;
+                }
             }
         }
         if (checkImg) {
@@ -83,23 +79,39 @@ public class Bomber extends Entity {
         west++;
         north = 0;
         south = 0;
-        x -= speedX;
-        int intX = (int) x;
-        int intY = (int) (y + 32.0/Sprite.SCALED_SIZE - 0.02);
         boolean checkImg = false;
-        if (BombermanGame.map[intY].charAt(intX) == '#'
-                || BombermanGame.map[intY].charAt(intX) == '*') {
-            if (x <= intX + 1) {
-                x = intX + 1;
+        x -= speed;
+        if (y % Sprite.SCALED_SIZE == 0) {
+            int X = x / Sprite.SCALED_SIZE;
+            int Y = y / Sprite.SCALED_SIZE;
+            if (BombermanGame.map[Y].charAt(X) == '#'
+                    || BombermanGame.map[Y].charAt(X) == '*') {
                 checkImg = true;
+                x = (X + 1) * Sprite.SCALED_SIZE;
             }
-        }
-        intY = (int) (y + 0.08);
-        if (BombermanGame.map[intY].charAt(intX) == '#'
-                || BombermanGame.map[intY].charAt(intX) == '*') {
-            if (x <= intX + 1) {
-                x = intX + 1;
-                checkImg = true;
+        } else {
+            int X = x / Sprite.SCALED_SIZE;
+            int Y1 = (y + 5) / Sprite.SCALED_SIZE;
+            int Y2 = y / Sprite.SCALED_SIZE;
+            int Y3 = (y + 27) / Sprite.SCALED_SIZE;
+            int Y4 = (y + 32) / Sprite.SCALED_SIZE;
+            if (BombermanGame.map[Y2].charAt(X) == '#'
+                    || BombermanGame.map[Y2].charAt(X) == '*') {
+                if (BombermanGame.map[Y1].charAt(X) != '#'
+                        && BombermanGame.map[Y1].charAt(X) != '*') {
+                    y = Y1 * Sprite.SCALED_SIZE;
+                } else {
+                    checkImg = true;
+                    x = (X + 1) * Sprite.SCALED_SIZE;
+                }
+            } else if (BombermanGame.map[Y4].charAt(X) == '#'
+                    || BombermanGame.map[Y4].charAt(X) == '*') {
+                if (BombermanGame.map[Y3].charAt(X) != '#'
+                        && BombermanGame.map[Y3].charAt(X) != '*') {
+                    y = Y3 * Sprite.SCALED_SIZE;
+                } else {
+                    x = (X + 1) *Sprite.SCALED_SIZE;
+                }
             }
         }
         if (checkImg) {
@@ -116,24 +128,17 @@ public class Bomber extends Entity {
         west = 0;
         north++;
         south = 0;
-        y -= speedY;
-        int intX = (int) (x + 0.01);
-        int intY = (int) y;
         boolean checkImg = false;
-        if (BombermanGame.map[intY].charAt(intX) == '#'
-                || BombermanGame.map[intY].charAt(intX) == '*') {
-            if (y <= intY + 1) {
-                y = intY + 1;
-                checkImg = true;
-            }
-        }
-        intX = (int) (x + 24.0/Sprite.SCALED_SIZE - 0.01);
-        if (BombermanGame.map[intY].charAt(intX) == '#'
-                || BombermanGame.map[intY].charAt(intX) == '*') {
-            if (y <= intY + 1) {
-                y = intY + 1;
-                checkImg = true;
-            }
+        y -= speed;
+        int X1 = x / Sprite.SCALED_SIZE;
+        int X2 = (x + 23) / Sprite.SCALED_SIZE;
+        int Y = y / Sprite.SCALED_SIZE;
+        if (BombermanGame.map[Y].charAt(X1) == '#'
+                || BombermanGame.map[Y].charAt(X1) == '*'
+                || BombermanGame.map[Y].charAt(X2) == '#'
+                || BombermanGame.map[Y].charAt(X2) == '*') {
+            y = (Y + 1) * Sprite.SCALED_SIZE;
+            checkImg = true;
         }
         if (checkImg) {
             img = Sprite.player_up.getFxImage();
@@ -149,24 +154,17 @@ public class Bomber extends Entity {
         west = 0;
         north = 0;
         south++;
-        y += speedY;
-        int intX = (int) (x + 0.01);
-        int intY = (int) y + 1;
         boolean checkImg = false;
-        if (BombermanGame.map[intY].charAt(intX) == '#'
-                || BombermanGame.map[intY].charAt(intX) == '*') {
-            if (y + 32.0/Sprite.SCALED_SIZE >= intY) {
-                y = intY - 32.0/Sprite.SCALED_SIZE;
-                checkImg = true;
-            }
-        }
-        intX = (int) (x + 24.0/Sprite.SCALED_SIZE - 0.01);
-        if (BombermanGame.map[intY].charAt(intX) == '#'
-                || BombermanGame.map[intY].charAt(intX) == '*') {
-            if (y + 32.0/Sprite.SCALED_SIZE >= intY) {
-                y = intY - 32.0/Sprite.SCALED_SIZE;
-                checkImg = true;
-            }
+        y += speed;
+        int X1 = x / Sprite.SCALED_SIZE;
+        int X2 = (x + 23) / Sprite.SCALED_SIZE;
+        int Y = (y + 32) / Sprite.SCALED_SIZE;
+        if (BombermanGame.map[Y].charAt(X1) == '#'
+                || BombermanGame.map[Y].charAt(X1) == '*'
+                || BombermanGame.map[Y].charAt(X2) == '#'
+                || BombermanGame.map[Y].charAt(X2) == '*') {
+            y = Y * Sprite.SCALED_SIZE - 32;
+            checkImg = true;
         }
         if (checkImg) {
             img = Sprite.player_down.getFxImage();

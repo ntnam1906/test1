@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Boom extends Entity {
-    public Boom(double x, double y, Image img) {
+    public Boom(int x, int y, Image img) {
         super(x, y, img);
     }
     private int timing;

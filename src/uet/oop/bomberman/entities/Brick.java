@@ -15,8 +15,18 @@ public class Brick extends Entity {
         this.dead = dead;
     }
 
-    public Brick(double x, double y, Image img) {
+    public Brick(int x, int y, Image img) {
         super( x, y, img);
+    }
+
+    @Override
+    public int getX() {
+        return x / Sprite.SCALED_SIZE;
+    }
+
+    @Override
+    public int getY() {
+        return y / Sprite.SCALED_SIZE;
     }
 
     @Override

@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.loadmap.LoadMap;
+import uet.oop.bomberman.update.BoomUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,6 @@ public class BombermanGame extends Application {
     public static boolean goEast;
     public static String[] map;
 
-    public static GraphicsContext getGc() {
-        return gc;
-    }
 
     private static GraphicsContext gc;
     private Canvas canvas;
@@ -36,6 +34,7 @@ public class BombermanGame extends Application {
     private Bomber player1;
     private List<Boom> boomObjects = new ArrayList<>();
     private List<BoomExploded> boomExplodeds = new ArrayList<>();
+    private List<Brick> brickObjects = new ArrayList<>();
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -111,7 +110,7 @@ public class BombermanGame extends Application {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
                     objectEntity = new Brick(i, j, Sprite.brick.getFxImage());
-                    entities.add(objectEntity);
+                    brickObjects.add((Brick)objectEntity);
                 } else if (map[j].charAt(i) == 'x') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
@@ -141,120 +140,13 @@ public class BombermanGame extends Application {
         }
     }
 
-    public void createBoomExplosion(Boom boomObject) {
-        int x = (int) boomObject.getX();
-        int y = (int) boomObject.getY();
-        int lengthOfBoom = boomObject.getLengthOfBoom();
-        for (int i = x + 1; i <= x + lengthOfBoom; ++i) {
-            if (map[y].charAt(i) == '#') {
-                break;
-            }
-            if (map[y].charAt(i) == '*') {
-                map[y] = map[y].substring(0, i) + " " + map[y].substring(i + 1, map[y].length());
-                for (int u = 0; u < entities.size(); ++u) {
-                    if (entities.get(u) instanceof Brick) {
-                        Brick object = (Brick)entities.get(u);
-                        if (object.getX() == i && object.getY() == y) {
-                            object.setDead(true);
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            if ((i < x + lengthOfBoom && map[y].charAt(i + 1) == '#')
-                    || (i == x + lengthOfBoom)) {
-                BoomExploded boomExploded = new BoomExploded(i, y, Sprite.explosion_horizontal_right_last.getFxImage(), 'r');
-                boomExplodeds.add(boomExploded);
-                break;
-            }
-            BoomExploded boomExploded = new BoomExploded(i, y, Sprite.explosion_horizontal.getFxImage(), 'h');
-            boomExplodeds.add(boomExploded);
-        }
-        for (int i = x - 1; i >= x - lengthOfBoom; --i) {
-            if (map[y].charAt(i) == '#') {
-                break;
-            }
-            if (map[y].charAt(i) == '*') {
-                map[y] = map[y].substring(0, i) + " " + map[y].substring(i + 1, map[y].length());
-                for (int u = 0; u < entities.size(); ++u) {
-                    if (entities.get(u) instanceof Brick) {
-                        Brick object = (Brick)entities.get(u);
-                        if (object.getX() == i && object.getY() == y) {
-                            object.setDead(true);
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            if ((i > x - lengthOfBoom && map[y].charAt(i - 1) == '#')
-                    || (i == x - lengthOfBoom)) {
-                BoomExploded boomExploded = new BoomExploded(i, y, Sprite.explosion_horizontal_left_last.getFxImage(), 'l');
-                boomExplodeds.add(boomExploded);
-                break;
-            }
-            BoomExploded boomExploded = new BoomExploded(i, y, Sprite.explosion_horizontal.getFxImage(), 'h');
-            boomExplodeds.add(boomExploded);
-        }
-        for (int j = y + 1; j <= y + lengthOfBoom; ++j) {
-            if (map[j].charAt(x) == '#') {
-                break;
-            }
-            if (map[j].charAt(x) == '*') {
-                map[j] = map[j].substring(0, x) + " " + map[j].substring(x + 1, map[j].length());
-                for (int u = 0; u < entities.size(); ++u) {
-                    if (entities.get(u) instanceof Brick) {
-                        Brick object = (Brick)entities.get(u);
-                        if (object.getX() == x && object.getY() == j) {
-                            object.setDead(true);
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            if ((j < y + lengthOfBoom && map[j + 1].charAt(x) == '#')
-                    || j == y + lengthOfBoom) {
-                BoomExploded boomExploded = new BoomExploded(x, j, Sprite.explosion_vertical_down_last.getFxImage(), 'd');
-                boomExplodeds.add(boomExploded);
-                break;
-            }
-            BoomExploded boomExploded = new BoomExploded(x, j, Sprite.explosion_vertical.getFxImage(), 'v');
-            boomExplodeds.add(boomExploded);
-        }
-        for (int j = y - 1; j >= y - lengthOfBoom; --j) {
-            if (map[j].charAt(x) == '#') {
-                break;
-            }
-            if (map[j].charAt(x) == '*') {
-                map[j] = map[j].substring(0, x) + " " + map[j].substring(x + 1, map[j].length());
-                for (int u = 0; u < entities.size(); ++u) {
-                    if (entities.get(u) instanceof Brick) {
-                        Brick object = (Brick)entities.get(u);
-                        if (object.getX() == x && object.getY() == j) {
-                            object.setDead(true);
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-            if ((j > y - lengthOfBoom && map[j - 1].charAt(x) == '#')
-                    || j == y - lengthOfBoom) {
-                BoomExploded boomExploded = new BoomExploded(x, j, Sprite.explosion_vertical_top_last.getFxImage(), 't');
-                boomExplodeds.add(boomExploded);
-                break;
-            }
-            BoomExploded boomExploded = new BoomExploded(x, j, Sprite.explosion_vertical.getFxImage(), 'v');
-            boomExplodeds.add(boomExploded);
-        }
-    }
+
 
     public void updateObject() {
         for (int i = 0; i < boomObjects.size(); ++i) {
             if (boomObjects.get(i).getTiming() == 120) {
-                createBoomExplosion(boomObjects.get(i));
+                boomExplodeds = BoomUpdate.createBoomExplosion(boomObjects.get(i),
+                        boomExplodeds, brickObjects);
             }
             if (boomObjects.get(i).getTiming() == 135) {
                 boomObjects.remove(i);
@@ -267,13 +159,11 @@ public class BombermanGame extends Application {
                 --i;
             }
         }
-        for (int i = 0; i < entities.size(); ++i) {
-            if (entities.get(i) instanceof Brick) {
-                int time = ((Brick) entities.get(i)).getTiming();
-                if (time == 15) {
-                    entities.remove(i);
-                    --i;
-                }
+        for (int i = 0; i < brickObjects.size(); ++i) {
+            int time = brickObjects.get(i).getTiming();
+            if (time == 15) {
+                brickObjects.remove(i);
+                --i;
             }
         }
     }
@@ -287,6 +177,7 @@ public class BombermanGame extends Application {
         entities.forEach(Entity::update);
         boomObjects.forEach(Boom::update);
         boomExplodeds.forEach(BoomExploded::update);
+        brickObjects.forEach(Brick::update);
         player1.update();
         updateObject();
     }
@@ -297,6 +188,7 @@ public class BombermanGame extends Application {
         entities.forEach(g -> g.render(gc));
         boomObjects.forEach(g -> g.render(gc));
         boomExplodeds.forEach(g -> g.render(gc));
+        brickObjects.forEach(g -> g.render(gc));
         player1.render(gc);
 
     }
