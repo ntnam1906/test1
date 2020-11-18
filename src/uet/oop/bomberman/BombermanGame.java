@@ -6,12 +6,13 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.loadmap.LoadMap;
 import uet.oop.bomberman.update.BoomUpdate;
+import uet.oop.bomberman.update.EnemyDead;
+import uet.oop.bomberman.update.PlayerDead;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class BombermanGame extends Application {
 
     private static GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
+    private List<Entity> enemyObjects = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
     private Bomber player1;
     private List<Boom> boomObjects = new ArrayList<>();
@@ -80,15 +81,10 @@ public class BombermanGame extends Application {
         });
 
         AnimationTimer timer = new AnimationTimer() {
-            //long delta;
-            //long lastFrameTime = 0;
             @Override
             public void handle(long l) {
-                //delta = l - lastFrameTime;
-                //lastFrameTime = l;
                 render();
                 update();
-                //System.out.println(delta);
             }
         };
 
@@ -115,7 +111,7 @@ public class BombermanGame extends Application {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
                     objectEntity = new Portal(i, j, Sprite.portal.getFxImage());
-                    entities.add(objectEntity);
+                    stillObjects.add(objectEntity);
                 } else if (map[j].charAt(i) == 'p') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
@@ -125,12 +121,12 @@ public class BombermanGame extends Application {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
                     objectEntity = new Balloon(i, j, Sprite.balloom_left1.getFxImage());
-                    entities.add(objectEntity);
+                    enemyObjects.add(objectEntity);
                 } else if (map[j].charAt(i) == '2') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
                     objectEntity = new Oneal(i, j, Sprite.oneal_right1.getFxImage());
-                    entities.add(objectEntity);
+                    enemyObjects.add(objectEntity);
                 } else {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
@@ -139,8 +135,6 @@ public class BombermanGame extends Application {
             }
         }
     }
-
-
 
     public void updateObject() {
         for (int i = 0; i < boomObjects.size(); ++i) {
@@ -166,6 +160,20 @@ public class BombermanGame extends Application {
                 --i;
             }
         }
+        for (int i = 0; i < enemyObjects.size(); ++i) {
+            EntityCanDead entity = (EntityCanDead)enemyObjects.get(i);
+            if (!entity.isDead()) {
+                EnemyDead.checkWhenDead(entity, boomExplodeds);
+            } else {
+                if (entity.getTiming() == 20) {
+                    enemyObjects.remove(i);
+                    --i;
+                }
+            }
+        }
+        if (!player1.isDead()) {
+            PlayerDead.checkWhenDead(player1, boomExplodeds);
+        }
     }
 
     public void update() {
@@ -174,7 +182,7 @@ public class BombermanGame extends Application {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        entities.forEach(Entity::update);
+        enemyObjects.forEach(Entity::update);
         boomObjects.forEach(Boom::update);
         boomExplodeds.forEach(BoomExploded::update);
         brickObjects.forEach(Brick::update);
@@ -185,11 +193,10 @@ public class BombermanGame extends Application {
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
-        entities.forEach(g -> g.render(gc));
+        enemyObjects.forEach(g -> g.render(gc));
         boomObjects.forEach(g -> g.render(gc));
         boomExplodeds.forEach(g -> g.render(gc));
         brickObjects.forEach(g -> g.render(gc));
         player1.render(gc);
-
     }
 }

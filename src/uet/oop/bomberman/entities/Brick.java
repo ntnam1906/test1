@@ -3,17 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Brick extends Entity {
-    private boolean dead = false;
-    private int timing = 0;
-
-    public int getTiming() {
-        return timing;
-    }
-
-    public void setDead(boolean dead) {
-        this.dead = dead;
-    }
+public class Brick extends EntityCanDead {
 
     public Brick(int x, int y, Image img) {
         super( x, y, img);
@@ -30,7 +20,7 @@ public class Brick extends Entity {
     }
 
     @Override
-    public void update() {
+    public void whenDead() {
         if (dead) {
             if (timing == 0) {
                 img = Sprite.brick_exploded.getFxImage();
@@ -42,5 +32,10 @@ public class Brick extends Entity {
         } else if (timing == 10) {
             img = Sprite.brick_exploded2.getFxImage();
         }
+    }
+
+    @Override
+    public void update() {
+        whenDead();
     }
 }

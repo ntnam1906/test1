@@ -9,7 +9,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 
-public class Bomber extends Entity {
+public class Bomber extends EntityCanDead {
 
     private int east, west, north, south;
     private int speed = 2;
@@ -174,8 +174,28 @@ public class Bomber extends Entity {
             img = Sprite.player_down_2.getFxImage();
         }
     }
+
+    @Override
+    public void whenDead() {
+        if (dead) {
+            if (timing == 0) {
+                img = Sprite.player_dead1.getFxImage();
+            }
+            timing++;
+        }
+        if (timing == 5) {
+            img = Sprite.player_dead2.getFxImage();
+        } else if (timing == 10) {
+            img = Sprite.player_dead3.getFxImage();
+        }
+    }
+
     @Override
     public void update() {
+        whenDead();
+        if (dead) {
+            return;
+        }
         if (BombermanGame.goEast) {
             goEast();
         } else
