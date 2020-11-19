@@ -19,6 +19,10 @@ public class Boom extends Entity {
         return timing;
     }
 
+    public void setTiming(int timing) {
+        this.timing = timing;
+    }
+
     public static int getLengthOfBoom() {
         return lengthOfBoom;
     }
@@ -44,6 +48,17 @@ public class Boom extends Entity {
         } else if (timing % 30 == 20) {
             img = Sprite.bomb_2.getFxImage();
         }
-
+        if (timing == 1) {
+            int X = x / Sprite.SCALED_SIZE;
+            int Y = y / Sprite.SCALED_SIZE;
+            BombermanGame.map[Y] = BombermanGame.map[Y].substring(0, X) + "B"
+                    + BombermanGame.map[Y].substring(X + 1);
+        }
+        if (timing == 134) {
+            int X = x / Sprite.SCALED_SIZE;
+            int Y = y / Sprite.SCALED_SIZE;
+            BombermanGame.map[Y] = BombermanGame.map[Y].substring(0, X) + " "
+                    + BombermanGame.map[Y].substring(X + 1);
+        }
     }
 }

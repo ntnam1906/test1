@@ -11,13 +11,23 @@ import java.util.List;
 public class BoomUpdate {
     public static List<BoomExploded> createBoomExplosion(Boom boomObject,
                                            List<BoomExploded> boomExplodeds,
-                                           List<Brick> brickObjects) {
+                                           List<Brick> brickObjects, List<Boom> boomObjects) {
         int x = boomObject.getX() / Sprite.SCALED_SIZE;
         int y = boomObject.getY() / Sprite.SCALED_SIZE;
         int lengthOfBoom = boomObject.getLengthOfBoom();
         for (int i = x + 1; i <= x + lengthOfBoom; ++i) {
             if (BombermanGame.map[y].charAt(i) == '#') {
                 break;
+            }
+            for (Boom boom : boomObjects) {
+                if (boom.getTiming() >= 120) {
+                    continue;
+                }
+                int X = boom.getX() / Sprite.SCALED_SIZE;
+                int Y = boom.getY() / Sprite.SCALED_SIZE;
+                if (X == i && Y == y) {
+                    boom.setTiming(120);
+                }
             }
             if (BombermanGame.map[y].charAt(i) == '*') {
                 BombermanGame.map[y] = BombermanGame.map[y].substring(0, i) + " " + BombermanGame.map[y].substring(i + 1, BombermanGame.map[y].length());
@@ -43,6 +53,16 @@ public class BoomUpdate {
             if (BombermanGame.map[y].charAt(i) == '#') {
                 break;
             }
+            for (Boom boom : boomObjects) {
+                if (boom.getTiming() >= 120) {
+                    continue;
+                }
+                int X = boom.getX() / Sprite.SCALED_SIZE;
+                int Y = boom.getY() / Sprite.SCALED_SIZE;
+                if (X == i && Y == y) {
+                    boom.setTiming(120);
+                }
+            }
             if (BombermanGame.map[y].charAt(i) == '*') {
                 BombermanGame.map[y] = BombermanGame.map[y].substring(0, i) + " " + BombermanGame.map[y].substring(i + 1, BombermanGame.map[y].length());
                 for (int u = 0; u < brickObjects.size(); ++u) {
@@ -67,6 +87,16 @@ public class BoomUpdate {
             if (BombermanGame.map[j].charAt(x) == '#') {
                 break;
             }
+            for (Boom boom : boomObjects) {
+                if (boom.getTiming() >= 120) {
+                    continue;
+                }
+                int X = boom.getX() / Sprite.SCALED_SIZE;
+                int Y = boom.getY() / Sprite.SCALED_SIZE;
+                if (X == x && Y == j) {
+                    boom.setTiming(120);
+                }
+            }
             if (BombermanGame.map[j].charAt(x) == '*') {
                 BombermanGame.map[j] = BombermanGame.map[j].substring(0, x) + " " + BombermanGame.map[j].substring(x + 1, BombermanGame.map[j].length());
                 for (int u = 0; u < brickObjects.size(); ++u) {
@@ -90,6 +120,16 @@ public class BoomUpdate {
         for (int j = y - 1; j >= y - lengthOfBoom; --j) {
             if (BombermanGame.map[j].charAt(x) == '#') {
                 break;
+            }
+            for (Boom boom : boomObjects) {
+                if (boom.getTiming() >= 120) {
+                    continue;
+                }
+                int X = boom.getX() / Sprite.SCALED_SIZE;
+                int Y = boom.getY() / Sprite.SCALED_SIZE;
+                if (X == x && Y == j) {
+                    boom.setTiming(120);
+                }
             }
             if (BombermanGame.map[j].charAt(x) == '*') {
                 BombermanGame.map[j] = BombermanGame.map[j].substring(0, x) + " " + BombermanGame.map[j].substring(x + 1, BombermanGame.map[j].length());

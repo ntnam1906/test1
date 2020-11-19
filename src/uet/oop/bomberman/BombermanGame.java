@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import uet.oop.bomberman.Path.BFS;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.loadmap.LoadMap;
@@ -32,7 +33,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     private List<Entity> enemyObjects = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
-    private Bomber player1;
+    public static Bomber player1;
     private List<Boom> boomObjects = new ArrayList<>();
     private List<BoomExploded> boomExplodeds = new ArrayList<>();
     private List<Brick> brickObjects = new ArrayList<>();
@@ -58,7 +59,6 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
-
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:    goNorth = true; break;
@@ -66,6 +66,9 @@ public class BombermanGame extends Application {
                 case LEFT:  goWest  = true; break;
                 case RIGHT: goEast  = true; break;
                 case SPACE: {
+                    if (boomObjects.size() >= player1.getSizeOfBoom()) {
+                        break;
+                    }
                     Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
                     boomObjects.add(boom);
                 }
@@ -90,7 +93,6 @@ public class BombermanGame extends Application {
 
         timer.start();
         createMap();
-
     }
 
     public void createMap() {
@@ -140,7 +142,7 @@ public class BombermanGame extends Application {
         for (int i = 0; i < boomObjects.size(); ++i) {
             if (boomObjects.get(i).getTiming() == 120) {
                 boomExplodeds = BoomUpdate.createBoomExplosion(boomObjects.get(i),
-                        boomExplodeds, brickObjects);
+                        boomExplodeds, brickObjects, boomObjects);
             }
             if (boomObjects.get(i).getTiming() == 135) {
                 boomObjects.remove(i);
@@ -172,13 +174,13 @@ public class BombermanGame extends Application {
             }
         }
         if (!player1.isDead()) {
-            PlayerDead.checkWhenDead(player1, boomExplodeds);
+            PlayerDead.checkWhenDead(player1, boomExplodeds, enemyObjects);
         }
     }
 
     public void update() {
         try {
-            Thread.sleep(30);
+            Thread.sleep(20);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
