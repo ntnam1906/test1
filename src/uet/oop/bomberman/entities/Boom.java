@@ -12,7 +12,7 @@ public class Boom extends Entity {
         super(x, y, img);
     }
     private int timing;
-    private static int lengthOfBoom = 1;
+    private static int lengthOfBoom = 2;
 
 
     public int getTiming() {
