@@ -146,6 +146,17 @@ public class BombermanGame extends Application {
                     }
                     itemObjects.add(itemObject);
                     BombermanGame.map[j] = BombermanGame.map[j].substring(0, i) + "*" + BombermanGame.map[j].substring(i + 1, BombermanGame.map[j].length());
+                } else if (map[j].charAt(i) == '3') {
+                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                    stillObjects.add(object);
+                    objectEntity = new Ghost(i, j, Sprite.ghost_left1.getFxImage());
+                    enemyObjects.add(objectEntity);
+                }
+                else if (map[j].charAt(i) == '4') {
+                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                    stillObjects.add(object);
+                    objectEntity = new CoinRed(i, j, Sprite.coinRed_left1.getFxImage());
+                    enemyObjects.add(objectEntity);
                 } else {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
@@ -188,6 +199,10 @@ public class BombermanGame extends Application {
                 if (entity.getTiming() == 20) {
                     enemyObjects.remove(i);
                     --i;
+                    if (entity instanceof CoinRed) {
+                        Entity newEntity = new CoinOrange(entity.getX()/Sprite.SCALED_SIZE, entity.getY()/Sprite.SCALED_SIZE, Sprite.coinOrange_left1.getFxImage());
+                        enemyObjects.add(newEntity);
+                    }
                 }
             }
         }
