@@ -4,12 +4,10 @@ import javafx.scene.image.Image;
 
 public class Item extends EntityCanDead {
     private char typeOfItem;
-    private boolean active;
 
     public Item(int x, int y, Image img, char typeOfItem) {
         super(x, y, img);
         this.typeOfItem = typeOfItem;
-        this.active = false;
     }
 
     public char getTypeOfItem() {
@@ -18,14 +16,6 @@ public class Item extends EntityCanDead {
 
     public void setTypeOfItem(char typeOfItem) {
         this.typeOfItem = typeOfItem;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     @Override

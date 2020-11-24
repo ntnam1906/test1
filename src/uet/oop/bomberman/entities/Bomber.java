@@ -12,8 +12,8 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomber extends EntityCanDead {
 
     private int east, west, north, south;
-    private int speed = 2;
-    private int sizeOfBoom = 3;
+    private int speed = 1;
+    private int sizeOfBoom = 2;
 
     public int getSizeOfBoom() {
         return sizeOfBoom;
@@ -33,6 +33,14 @@ public class Bomber extends EntityCanDead {
 
     public int getLocationY() {
         return (y + 16) / Sprite.SCALED_SIZE;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     public boolean checkInBoom() {

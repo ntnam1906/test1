@@ -145,7 +145,7 @@ public class BombermanGame extends Application {
                             itemObject = new Item(i, j, Sprite.powerup_speed.getFxImage(), 's');
                     }
                     itemObjects.add(itemObject);
-                    BombermanGame.map[j] = BombermanGame.map[j].substring(0, i) + "*" + BombermanGame.map[j].substring(i + 1, BombermanGame.map[j].length());
+                    BombermanGame.map[j] = BombermanGame.map[j].substring(0, i) + "*" + BombermanGame.map[j].substring(i + 1);
                 } else if (map[j].charAt(i) == '3') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
@@ -186,7 +186,6 @@ public class BombermanGame extends Application {
         for (int i = 0; i < brickObjects.size(); ++i) {
             int time = brickObjects.get(i).getTiming();
             if (time == 15) {
-                ItemUpdate.createItem(brickObjects.get(i), itemObjects);
                 brickObjects.remove(i);
                 --i;
             }
@@ -206,6 +205,8 @@ public class BombermanGame extends Application {
                 }
             }
         }
+        itemObjects = ItemUpdate.takingItem(player1, itemObjects);
+        itemObjects = ItemUpdate.checkWhenDead(boomObjects, boomExplodeds, itemObjects);
         if (!player1.isDead()) {
             PlayerDead.checkWhenDead(player1, boomExplodeds, enemyObjects);
         }
