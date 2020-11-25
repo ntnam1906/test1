@@ -17,6 +17,7 @@ public class Balloon extends EntityCanDead {
         super(x, y, img);
     }
 
+
     @Override
     public void whenDead() {
         if (dead) {
@@ -114,6 +115,7 @@ public class Balloon extends EntityCanDead {
         Random random = new Random();
         int value = random.nextInt(2) + 1;
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+            goDoor();
             if (value == 1 && ((BombermanGame.map[y/32].charAt(x/32+1) != '#'
                     && BombermanGame.map[y/32].charAt(x/32+1) != '*'
                     && BombermanGame.map[y/32].charAt(x/32+1) != 'B')

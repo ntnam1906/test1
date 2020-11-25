@@ -2,10 +2,13 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import uet.oop.bomberman.Path.BFS;
 import uet.oop.bomberman.entities.*;
@@ -16,6 +19,7 @@ import uet.oop.bomberman.update.EnemyDead;
 import uet.oop.bomberman.update.ItemUpdate;
 import uet.oop.bomberman.update.PlayerDead;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,26 +34,31 @@ public class BombermanGame extends Application {
     public static String[] map;
 
 
+    public static Bomber player1;
+    public static List<Door> doorObjects = new ArrayList<>();
     private static GraphicsContext gc;
     private Canvas canvas;
     private List<Entity> enemyObjects = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
-    public static Bomber player1;
+
     private List<Boom> boomObjects = new ArrayList<>();
     private List<BoomExploded> boomExplodeds = new ArrayList<>();
     private List<Brick> brickObjects = new ArrayList<>();
     private List<Item> itemObjects = new ArrayList<>();
+    private List<Portal> portalObjects = new ArrayList<>();
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
+        // Tao start scene
+        //stage.setScene(new Scene(root1));
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
@@ -94,11 +103,11 @@ public class BombermanGame extends Application {
         };
 
         timer.start();
-        createMap();
+        createMap("res/levels/Level1.txt");
     }
 
-    public void createMap() {
-        map = LoadMap.loadMap("res/levels/Level1.txt");
+    public void createMap(String input) {
+        map = LoadMap.loadMap(input);
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT; j++) {
                 Entity object;
@@ -114,8 +123,11 @@ public class BombermanGame extends Application {
                 } else if (map[j].charAt(i) == 'x') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
+                    object = new Brick(i, j, Sprite.brick.getFxImage());
+                    brickObjects.add((Brick)object);
                     objectEntity = new Portal(i, j, Sprite.portal.getFxImage());
-                    stillObjects.add(objectEntity);
+                    portalObjects.add((Portal)objectEntity);
+                    BombermanGame.map[j] = BombermanGame.map[j].substring(0, i) + "*" + BombermanGame.map[j].substring(i + 1);
                 } else if (map[j].charAt(i) == 'p') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
@@ -157,11 +169,15 @@ public class BombermanGame extends Application {
                     stillObjects.add(object);
                     objectEntity = new CoinRed(i, j, Sprite.coinRed_left1.getFxImage());
                     enemyObjects.add(objectEntity);
+                } else if (map[j].charAt(i) == 'd') {
+                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                    stillObjects.add(object);
+                    objectEntity = new Door(i, j, Sprite.door.getFxImage());
+                    doorObjects.add((Door)objectEntity);
                 } else {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
                 }
-
             }
         }
     }
@@ -169,7 +185,7 @@ public class BombermanGame extends Application {
     public void updateObject() {
         for (int i = 0; i < boomObjects.size(); ++i) {
             if (boomObjects.get(i).getTiming() == 120) {
-                boomExplodeds = BoomUpdate.createBoomExplosion(boomObjects.get(i),
+                boomExplodeds = BoomUpdate.createBoomExplosion(boomObjects.get(i), player1,
                         boomExplodeds, brickObjects, boomObjects);
             }
             if (boomObjects.get(i).getTiming() == 135) {
@@ -208,8 +224,29 @@ public class BombermanGame extends Application {
         itemObjects = ItemUpdate.takingItem(player1, itemObjects);
         itemObjects = ItemUpdate.checkWhenDead(boomObjects, boomExplodeds, itemObjects);
         if (!player1.isDead()) {
-            PlayerDead.checkWhenDead(player1, boomExplodeds, enemyObjects);
+            PlayerDead.checkWhenDead(player1, boomExplodeds, enemyObjects, boomObjects);
+            for (Portal portal : portalObjects) {
+                if (portal.nextLevel(player1) == 1) {
+                    clearAll();
+                    createMap("res/levels/Level1.txt");
+                    return;
+                }
+            }
+        } else if (player1.isDead() && player1.getTiming() >= 20) {
+            clearAll();
+            createMap("res/levels/Level1.txt");
         }
+    }
+
+    public void clearAll() {
+        boomObjects.clear();
+        boomExplodeds.clear();
+        itemObjects.clear();
+        enemyObjects.clear();
+        stillObjects.clear();
+        portalObjects.clear();
+        doorObjects.clear();
+        brickObjects.clear();
     }
 
     public void update() {
@@ -224,12 +261,15 @@ public class BombermanGame extends Application {
         itemObjects.forEach(Item::update);
         enemyObjects.forEach(Entity::update);
         player1.update();
+        portalObjects.forEach(Portal::update);
         updateObject();
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
+        doorObjects.forEach(g -> g.render(gc));
+        portalObjects.forEach(g -> g.render(gc));
         boomObjects.forEach(g -> g.render(gc));
         boomExplodeds.forEach(g -> g.render(gc));
         itemObjects.forEach(g -> g.render(gc));

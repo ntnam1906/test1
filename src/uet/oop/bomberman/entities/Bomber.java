@@ -12,9 +12,9 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomber extends EntityCanDead {
 
     private int east, west, north, south;
-    private int speed = 1;
+    private int speed = 2;
     private int sizeOfBoom = 2;
-
+    private int lengthOfBoom = 1;
     public int getSizeOfBoom() {
         return sizeOfBoom;
     }
@@ -35,12 +35,41 @@ public class Bomber extends EntityCanDead {
         return (y + 16) / Sprite.SCALED_SIZE;
     }
 
+    public int getLengthOfBoom() {
+        return lengthOfBoom;
+    }
+
+    public void setLengthOfBoom(int lengthOfBoom) {
+        this.lengthOfBoom = lengthOfBoom;
+    }
+
     public int getSpeed() {
         return speed;
     }
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    @Override
+    public void goDoor() {
+        int X = getLocationX();
+        for (Door door : BombermanGame.doorObjects) {
+            int X1 = door.getX() / Sprite.SCALED_SIZE;
+            int Y1 = door.getY();
+            if (X == X1 && y == Y1) {
+                for (Door door1: BombermanGame.doorObjects) {
+                    X1 = door1.getX() / Sprite.SCALED_SIZE;
+                    Y1 = door1.getY();
+                    if (X != X1 || y != Y1) {
+                        x = X1 * Sprite.SCALED_SIZE + 4; // vao giua o
+                        y = Y1;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
     }
 
     public boolean checkInBoom() {
@@ -265,12 +294,13 @@ public class Bomber extends EntityCanDead {
                 img = Sprite.player_dead1.getFxImage();
             }
             timing++;
+            if (timing == 5) {
+                img = Sprite.player_dead2.getFxImage();
+            } else if (timing == 10) {
+                img = Sprite.player_dead3.getFxImage();
+            }
         }
-        if (timing == 5) {
-            img = Sprite.player_dead2.getFxImage();
-        } else if (timing == 10) {
-            img = Sprite.player_dead3.getFxImage();
-        }
+
     }
 
     @Override
@@ -297,5 +327,6 @@ public class Bomber extends EntityCanDead {
             else if (north > 0) img = Sprite.player_up.getFxImage();
             else if (south > 0) img = Sprite.player_down.getFxImage();
         }
+        goDoor();
     }
 }

@@ -1,6 +1,7 @@
 package uet.oop.bomberman.update;
 
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Boom;
 import uet.oop.bomberman.entities.BoomExploded;
 import uet.oop.bomberman.entities.Brick;
@@ -9,12 +10,12 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.List;
 
 public class BoomUpdate {
-    public static List<BoomExploded> createBoomExplosion(Boom boomObject,
+    public static List<BoomExploded> createBoomExplosion(Boom boomObject, Bomber player,
                                            List<BoomExploded> boomExplodeds,
                                            List<Brick> brickObjects, List<Boom> boomObjects) {
         int x = boomObject.getX() / Sprite.SCALED_SIZE;
         int y = boomObject.getY() / Sprite.SCALED_SIZE;
-        int lengthOfBoom = boomObject.getLengthOfBoom();
+        int lengthOfBoom = player.getLengthOfBoom();
         for (int i = x + 1; i <= x + lengthOfBoom; ++i) {
             if (BombermanGame.map[y].charAt(i) == '#') {
                 break;

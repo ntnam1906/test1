@@ -217,7 +217,15 @@ public class Sprite {
 	public static Sprite powerup_detonator = new Sprite(DEFAULT_SIZE, 4, 10, SpriteSheet.tiles, 16, 16);
 	public static Sprite powerup_bombpass = new Sprite(DEFAULT_SIZE, 5, 10, SpriteSheet.tiles, 16, 16);
 	public static Sprite powerup_flamepass = new Sprite(DEFAULT_SIZE, 6, 10, SpriteSheet.tiles, 16, 16);
-	
+
+	/*
+	|-------------------------------------------------------------------------
+	| Door
+	|-------------------------------------------------------------------------
+	 */
+	public static Sprite door = new Sprite(DEFAULT_SIZE, 1, 11, SpriteSheet.tiles, 16, 16);
+
+
 	public Sprite(int size, int x, int y, SpriteSheet sheet, int rw, int rh) {
 		SIZE = size;
 		_pixels = new int[SIZE * SIZE];

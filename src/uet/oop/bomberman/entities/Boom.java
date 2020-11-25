@@ -12,7 +12,6 @@ public class Boom extends Entity {
         super(x, y, img);
     }
     private int timing;
-    private static int lengthOfBoom = 1;
 
 
     public int getTiming() {
@@ -21,14 +20,6 @@ public class Boom extends Entity {
 
     public void setTiming(int timing) {
         this.timing = timing;
-    }
-
-    public static int getLengthOfBoom() {
-        return lengthOfBoom;
-    }
-
-    public static void setLengthOfBoom(int lengthOfBoom) {
-        lengthOfBoom = lengthOfBoom;
     }
 
 

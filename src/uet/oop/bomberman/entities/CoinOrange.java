@@ -76,6 +76,7 @@ public class CoinOrange extends EntityCanDead {
             return;
         }
         if (x % 32 == 0 && y % 32 == 0) {
+            goDoor();
             directionToGo =  BFS.bfs(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE,
                     BombermanGame.player1.getX() / Sprite.SCALED_SIZE,
                     BombermanGame.player1.getY() / Sprite.SCALED_SIZE).charAt(0);
