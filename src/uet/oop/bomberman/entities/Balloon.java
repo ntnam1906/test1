@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 
 import java.util.Random;
 
@@ -23,6 +24,7 @@ public class Balloon extends EntityCanDead {
         if (dead) {
             if (timing == 0) {
                 img = Sprite.balloom_dead.getFxImage();
+                Sound.play("AA126_11");
             }
             timing++;
         }

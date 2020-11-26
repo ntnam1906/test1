@@ -217,6 +217,7 @@ public class Sprite {
 	public static Sprite powerup_detonator = new Sprite(DEFAULT_SIZE, 4, 10, SpriteSheet.tiles, 16, 16);
 	public static Sprite powerup_bombpass = new Sprite(DEFAULT_SIZE, 5, 10, SpriteSheet.tiles, 16, 16);
 	public static Sprite powerup_flamepass = new Sprite(DEFAULT_SIZE, 6, 10, SpriteSheet.tiles, 16, 16);
+	public static Sprite powerup_random = new Sprite(DEFAULT_SIZE, 7, 10, SpriteSheet.tiles, 16, 16);
 
 	/*
 	|-------------------------------------------------------------------------

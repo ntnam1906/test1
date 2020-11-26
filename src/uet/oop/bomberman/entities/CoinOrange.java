@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Path.BFS;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 
 import java.util.Random;
 
@@ -20,6 +21,7 @@ public class CoinOrange extends EntityCanDead {
         if (dead) {
             if (timing == 0) {
                 img = Sprite.coinOrange_dead.getFxImage();
+                Sound.play("AA126_11");
             }
             timing++;
         }

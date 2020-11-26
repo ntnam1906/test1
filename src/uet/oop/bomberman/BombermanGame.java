@@ -14,6 +14,7 @@ import uet.oop.bomberman.Path.BFS;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.loadmap.LoadMap;
+import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.update.BoomUpdate;
 import uet.oop.bomberman.update.EnemyDead;
 import uet.oop.bomberman.update.ItemUpdate;
@@ -22,6 +23,7 @@ import uet.oop.bomberman.update.PlayerDead;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BombermanGame extends Application {
     
@@ -33,7 +35,7 @@ public class BombermanGame extends Application {
     public static boolean goEast;
     public static String[] map;
 
-
+    private int level = 2;
     public static Bomber player1;
     public static List<Door> doorObjects = new ArrayList<>();
     private static GraphicsContext gc;
@@ -53,6 +55,7 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        Sound.play("soundtrack");
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -103,7 +106,7 @@ public class BombermanGame extends Application {
         };
 
         timer.start();
-        createMap("res/levels/Level1.txt");
+        createMap("res/levels/Level" + level + ".txt");
     }
 
     public void createMap(String input) {
@@ -143,18 +146,29 @@ public class BombermanGame extends Application {
                     stillObjects.add(object);
                     objectEntity = new Oneal(i, j, Sprite.oneal_right1.getFxImage());
                     enemyObjects.add(objectEntity);
-                } else if (map[j].charAt(i) == 'b' || map[j].charAt(i) == 'f' || map[j].charAt(i) == 's') {
+                } else if (map[j].charAt(i) == 'b' || map[j].charAt(i) == 'f'
+                        || map[j].charAt(i) == 's' || map[j].charAt(i) == '?') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
                     objectEntity = new Brick(i, j, Sprite.brick.getFxImage());
                     brickObjects.add((Brick)objectEntity);
-                    Item itemObject = new Item(i, j, Sprite.powerup_bombs.getFxImage(), 'b');
+                    Item itemObject = new Item(i, j, Sprite.powerup_random.getFxImage(), '?');
                     switch (map[j].charAt(i)) {
+                        case 'b':
+                            itemObject = new Item(i, j, Sprite.powerup_bombs.getFxImage(), 'b');
+                            break;
                         case 'f':
                             itemObject = new Item(i, j, Sprite.powerup_flames.getFxImage(), 'f');
                             break;
                         case 's':
                             itemObject = new Item(i, j, Sprite.powerup_speed.getFxImage(), 's');
+                            break;
+                        default:
+                            Random random = new Random();
+                            int value = random.nextInt(3);
+                            if (value == 0) itemObject.setTypeOfItem('b');
+                            else if (value == 1) itemObject.setTypeOfItem('f');
+                            else if (value == 2) itemObject.setTypeOfItem('s');
                     }
                     itemObjects.add(itemObject);
                     BombermanGame.map[j] = BombermanGame.map[j].substring(0, i) + "*" + BombermanGame.map[j].substring(i + 1);
@@ -221,20 +235,20 @@ public class BombermanGame extends Application {
                 }
             }
         }
-        itemObjects = ItemUpdate.takingItem(player1, itemObjects);
+        itemObjects = player1.takingItem(itemObjects);
         itemObjects = ItemUpdate.checkWhenDead(boomObjects, boomExplodeds, itemObjects);
         if (!player1.isDead()) {
             PlayerDead.checkWhenDead(player1, boomExplodeds, enemyObjects, boomObjects);
             for (Portal portal : portalObjects) {
-                if (portal.nextLevel(player1) == 1) {
+                if (portal.nextLevel(player1) == 1 && enemyObjects.size() == 0) {
                     clearAll();
-                    createMap("res/levels/Level1.txt");
+                    createMap("res/levels/Level" + level + ".txt");
                     return;
                 }
             }
         } else if (player1.isDead() && player1.getTiming() >= 20) {
             clearAll();
-            createMap("res/levels/Level1.txt");
+            createMap("res/levels/Level" + level + ".txt");
         }
     }
 

@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,16 @@ public class Boom extends Entity {
     @Override
     public void update() {
         timing++;
+        if (timing == 1) {
+            Sound.play("BOM_SET");
+        }
         if (timing >= 130) {
             img = Sprite.bomb_exploded2.getFxImage();
         } else if (timing >= 125) {
             img = Sprite.bomb_exploded1.getFxImage();
         } else if (timing >= 120) {
             img = Sprite.bomb_exploded.getFxImage();
+            if (timing == 120) Sound.play("BOM_11_M");
         } else if (timing % 30 == 0) {
             img = Sprite.bomb.getFxImage();
         } else if (timing % 30 == 10) {

@@ -7,6 +7,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
+
+import java.util.List;
 
 
 public class Bomber extends EntityCanDead {
@@ -287,11 +290,43 @@ public class Bomber extends EntityCanDead {
         }
     }
 
+    public List<Item> takingItem(List<Item> itemObjects) {
+        int bomberX = getLocationX();
+        int bomberY = getLocationY();
+        for (int i = 0; i < itemObjects.size(); ++i) {
+            int X = itemObjects.get(i).getX() / Sprite.SCALED_SIZE;
+            int Y = itemObjects.get(i).getY() / Sprite.SCALED_SIZE;
+            if (bomberX == X && bomberY == Y) {
+                switch (itemObjects.get(i).getTypeOfItem()) {
+                    case 'b':
+                        if (sizeOfBoom <= 6) {
+                            sizeOfBoom++;
+                        }
+                        break;
+                    case 'f':
+                        if (lengthOfBoom <= 4) {
+                            lengthOfBoom++;
+                        }
+                        break;
+                    case 's':
+                        if (speed <= 4) {
+                            speed++;
+                        }
+                        break;
+                }
+                itemObjects.remove(i);
+                --i;
+            }
+        }
+        return itemObjects;
+    }
+
     @Override
     public void whenDead() {
         if (dead) {
             if (timing == 0) {
                 img = Sprite.player_dead1.getFxImage();
+                Sound.play("endgame3");
             }
             timing++;
             if (timing == 5) {

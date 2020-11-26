@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.Path.BFS;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 
 import java.util.Random;
 
@@ -22,6 +23,7 @@ public class Oneal extends EntityCanDead {
         if (dead) {
             if (timing == 0) {
                 img = Sprite.oneal_dead.getFxImage();
+                Sound.play("AA126_11");
             }
             timing++;
         }
@@ -80,9 +82,15 @@ public class Oneal extends EntityCanDead {
         }
         if (x % 32 == 0 && y % 32 == 0) {
             goDoor();
-            directionToGo =  BFS.bfs(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE,
+            String road =  BFS.bfs(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE,
                     BombermanGame.player1.getX() / Sprite.SCALED_SIZE,
-                    BombermanGame.player1.getY() / Sprite.SCALED_SIZE).charAt(0);
+                    BombermanGame.player1.getY() / Sprite.SCALED_SIZE);
+            if (!road.equals(" ") && road.length() <= 10) {
+                speed = 2;
+            } else {
+                speed = 1;
+            }
+            directionToGo = road.charAt(0);
             timing = 0;
             if (directionToGo == ' ') {
                 char[] a = new char[4];
