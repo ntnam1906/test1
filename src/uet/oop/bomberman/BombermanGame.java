@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import uet.oop.bomberman.Path.BFS;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.graphics.ChangeSprite;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.loadmap.LoadMap;
 import uet.oop.bomberman.sound.Sound;
@@ -35,6 +36,7 @@ public class BombermanGame extends Application {
     public static boolean goEast;
     public static String[] map;
 
+    private boolean pause = false;
     private int level = 2;
     public static Bomber player1;
     public static List<Door> doorObjects = new ArrayList<>();
@@ -56,6 +58,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Sound.play("soundtrack");
+        ChangeSprite.changeTo();
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -73,6 +76,17 @@ public class BombermanGame extends Application {
         stage.setScene(scene);
         stage.show();
 
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                render();
+                update();
+            }
+        };
+
+        timer.start();
+
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:    goNorth = true; break;
@@ -85,7 +99,16 @@ public class BombermanGame extends Application {
                     }
                     Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
                     boomObjects.add(boom);
+                    break;
                 }
+                case P:
+                    if (pause == false) {
+                        timer.stop();
+                        pause = true;
+                    } else {
+                        timer.start();
+                        pause = false;
+                    }
             }
         });
         scene.setOnKeyReleased(event -> {
@@ -97,15 +120,6 @@ public class BombermanGame extends Application {
             }
         });
 
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                render();
-                update();
-            }
-        };
-
-        timer.start();
         createMap("res/levels/Level" + level + ".txt");
     }
 
@@ -240,6 +254,9 @@ public class BombermanGame extends Application {
         if (!player1.isDead()) {
             PlayerDead.checkWhenDead(player1, boomExplodeds, enemyObjects, boomObjects);
             for (Portal portal : portalObjects) {
+                if (enemyObjects.size() == 0) {
+                    portal.setImg(Sprite.portal_open.getFxImage());
+                }
                 if (portal.nextLevel(player1) == 1 && enemyObjects.size() == 0) {
                     clearAll();
                     createMap("res/levels/Level" + level + ".txt");
