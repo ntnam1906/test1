@@ -1,13 +1,15 @@
-package uet.oop.bomberman.update;
+package uet.oop.bomberman.update.dead;
 
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.candead.Bomber;
+import uet.oop.bomberman.entities.candead.enemy.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
 
 public class PlayerDead {
     public static void checkWhenDead(Bomber player, List<BoomExploded> boomExplodeds,
-                                     List<Entity> enemyObjects, List<Boom> booms) {
+                                     List<Enemy> enemyObjects, List<Boom> booms) {
         int X1 = (player.getX() + 2) / Sprite.SCALED_SIZE;
         int Y1 = (player.getY() + 2) / Sprite.SCALED_SIZE;
         int X2 = (player.getX() + 22) / Sprite.SCALED_SIZE;

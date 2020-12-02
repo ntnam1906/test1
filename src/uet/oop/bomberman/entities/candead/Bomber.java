@@ -1,11 +1,9 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.candead;
 
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.candead.items.Item;
+import uet.oop.bomberman.entities.staticEntity.Door;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
@@ -15,9 +13,11 @@ import java.util.List;
 public class Bomber extends EntityCanDead {
 
     private int east, west, north, south;
-    private int speed = 2;
+    private int speed = 1;
     private int sizeOfBoom = 2;
     private int lengthOfBoom = 1;
+    private int heart = 2;
+
     public int getSizeOfBoom() {
         return sizeOfBoom;
     }
@@ -54,7 +54,14 @@ public class Bomber extends EntityCanDead {
         this.speed = speed;
     }
 
-    @Override
+    public int getHeart() {
+        return heart;
+    }
+
+    public void setHeart(int heart) {
+        this.heart = heart;
+    }
+
     public void goDoor() {
         int X = getLocationX();
         for (Door door : BombermanGame.doorObjects) {
@@ -152,10 +159,9 @@ public class Bomber extends EntityCanDead {
         }
         if (checkImg) {
             img = Sprite.player_right.getFxImage();
-        } else if (east % 8 <= 3) {
-            img = Sprite.player_right_1.getFxImage();
         } else {
-            img = Sprite.player_right_2.getFxImage();
+            img = Sprite.movingSprite(Sprite.player_right_1,
+                    Sprite.player_right_2, east, 12).getFxImage();
         }
     }
 
@@ -215,10 +221,9 @@ public class Bomber extends EntityCanDead {
         }
         if (checkImg) {
             img = Sprite.player_left.getFxImage();
-        } else if (west % 8 <= 3) {
-            img = Sprite.player_left_1.getFxImage();
         } else {
-            img = Sprite.player_left_2.getFxImage();
+            img = Sprite.movingSprite(Sprite.player_left_1,
+                    Sprite.player_left_2, west, 12).getFxImage();
         }
     }
 
@@ -249,10 +254,9 @@ public class Bomber extends EntityCanDead {
         }
         if (checkImg) {
             img = Sprite.player_up.getFxImage();
-        } else if (north % 8 <= 3) {
-            img = Sprite.player_up_1.getFxImage();
         } else {
-            img = Sprite.player_up_2.getFxImage();
+            img = Sprite.movingSprite(Sprite.player_up_1,
+                    Sprite.player_up_2, north, 12).getFxImage();
         }
     }
 
@@ -283,43 +287,12 @@ public class Bomber extends EntityCanDead {
         }
         if (checkImg) {
             img = Sprite.player_down.getFxImage();
-        } else if (south % 8 <= 3) {
-            img = Sprite.player_down_1.getFxImage();
         } else {
-            img = Sprite.player_down_2.getFxImage();
+            img = Sprite.movingSprite(Sprite.player_down_1,
+                    Sprite.player_down_2, south, 12).getFxImage();
         }
     }
 
-    public List<Item> takingItem(List<Item> itemObjects) {
-        int bomberX = getLocationX();
-        int bomberY = getLocationY();
-        for (int i = 0; i < itemObjects.size(); ++i) {
-            int X = itemObjects.get(i).getX() / Sprite.SCALED_SIZE;
-            int Y = itemObjects.get(i).getY() / Sprite.SCALED_SIZE;
-            if (bomberX == X && bomberY == Y) {
-                switch (itemObjects.get(i).getTypeOfItem()) {
-                    case 'b':
-                        if (sizeOfBoom <= 6) {
-                            sizeOfBoom++;
-                        }
-                        break;
-                    case 'f':
-                        if (lengthOfBoom <= 4) {
-                            lengthOfBoom++;
-                        }
-                        break;
-                    case 's':
-                        if (speed <= 4) {
-                            speed++;
-                        }
-                        break;
-                }
-                itemObjects.remove(i);
-                --i;
-            }
-        }
-        return itemObjects;
-    }
 
     @Override
     public void whenDead() {

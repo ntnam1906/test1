@@ -1,13 +1,14 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.candead.enemy;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.candead.EntityCanDead;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 
 import java.util.Random;
 
-public class Balloon extends EntityCanDead {
+public class Balloon extends Enemy {
 
     private boolean leftOrRight = true;
     private boolean upOrDown = true;

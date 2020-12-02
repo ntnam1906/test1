@@ -1,10 +1,10 @@
-package uet.oop.bomberman.update;
+package uet.oop.bomberman.update.createBoom;
 
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Bomber;
+import uet.oop.bomberman.entities.candead.Bomber;
 import uet.oop.bomberman.entities.Boom;
 import uet.oop.bomberman.entities.BoomExploded;
-import uet.oop.bomberman.entities.Brick;
+import uet.oop.bomberman.entities.candead.Brick;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;

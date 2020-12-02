@@ -1,4 +1,4 @@
-package uet.oop.bomberman.entities;
+package uet.oop.bomberman.entities.candead;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.graphics.Sprite;

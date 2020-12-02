@@ -1,10 +1,8 @@
-package uet.oop.bomberman.Path;
+package uet.oop.bomberman.moving.enemy;
 
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Bomber;
 
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class BFS {
     public static String bfs(int x1, int y1, int x2, int y2) {
