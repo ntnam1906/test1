@@ -264,6 +264,9 @@ public class BombermanGame extends Application {
                     if (boomObjects.size() >= player1.getSizeOfBoom()) {
                         break;
                     }
+                    if (map[player1.getLocationY()].charAt(player1.getLocationX()) == 'B') {
+                        break;
+                    }
                     Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
                     boomObjects.add(boom);
                     break;

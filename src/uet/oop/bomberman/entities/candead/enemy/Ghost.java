@@ -55,7 +55,7 @@ public class Ghost extends Enemy {
         }
         if(x % 32 == 0 && y % 32 == 0) {
             timing = 0;
-            directionToGo = MovingRandom.directionToMove(x, y);
+            directionToGo = MovingRandom.randomDirectionToMove(x, y);
         }
         switch (directionToGo) {
             case 'L': goLeft(); break;

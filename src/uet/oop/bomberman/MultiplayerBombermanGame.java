@@ -249,6 +249,9 @@ public class MultiplayerBombermanGame extends Application {
                     if (playerBomb2 >= player2.getSizeOfBoom()) {
                         break;
                     }
+                    if (BombermanGame.map[player2.getLocationY()].charAt(player2.getLocationX()) == 'B') {
+                        break;
+                    }
                     Boom boom = new Boom(player2.getLocationX(), player2.getLocationY(), Sprite.bomb.getFxImage());
                     boom.setType(2);
                     boomObjects.add(boom);
@@ -261,6 +264,9 @@ public class MultiplayerBombermanGame extends Application {
                 case D: player1.goEast  = true; break;
                 case SPACE: {
                     if (playerBomb1 >= player1.getSizeOfBoom()) {
+                        break;
+                    }
+                    if (BombermanGame.map[player1.getLocationY()].charAt(player1.getLocationX()) == 'B') {
                         break;
                     }
                     Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
@@ -519,6 +525,7 @@ public class MultiplayerBombermanGame extends Application {
         if (time == 0) {
             clearAll();
             createMap("res/multimap/Map1" + ".txt");
+            time = 12000;
         }
     }
 
