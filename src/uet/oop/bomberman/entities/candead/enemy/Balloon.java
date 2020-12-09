@@ -37,13 +37,8 @@ public class Balloon extends Enemy {
                     && BombermanGame.map[y/32].charAt(x/32+1) != '*'
                     && BombermanGame.map[y/32].charAt(x/32+1) != 'B') {
                 x += speed;
-                if (timing % 21 == 0) {
-                    img = Sprite.balloom_right1.getFxImage();
-                } else if (timing % 21 == 7) {
-                    img = Sprite.balloom_right2.getFxImage();
-                } else if (timing % 21 == 14) {
-                    img = Sprite.balloom_right3.getFxImage();
-                }
+                img = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2,
+                        Sprite.balloom_right3, timing, 30).getFxImage();
                 timing++;
             } else {
                 leftOrRight = true;
@@ -54,13 +49,8 @@ public class Balloon extends Enemy {
                     && BombermanGame.map[y/32].charAt((x-1)/32) != '*'
                     && BombermanGame.map[y/32].charAt((x-1)/32) != 'B') {
                 x -= speed;
-                if (timing % 21 == 0) {
-                    img = Sprite.balloom_left1.getFxImage();
-                } else if (timing % 21 == 7) {
-                    img = Sprite.balloom_left2.getFxImage();
-                } else if (timing % 21 == 14) {
-                    img = Sprite.balloom_left3.getFxImage();
-                }
+                img = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2,
+                        Sprite.balloom_left3, timing, 30).getFxImage();
                 timing++;
             } else {
                 leftOrRight = false;
@@ -77,13 +67,8 @@ public class Balloon extends Enemy {
                     && BombermanGame.map[y/32+1].charAt(x/32) != '*'
                     && BombermanGame.map[y/32+1].charAt(x/32) != 'B') {
                 y += speed;
-                if (timing % 21 == 0) {
-                    img = Sprite.balloom_left1.getFxImage();
-                } else if (timing % 21 == 7) {
-                    img = Sprite.balloom_left2.getFxImage();
-                } else if (timing % 21 == 14) {
-                    img = Sprite.balloom_left3.getFxImage();
-                }
+                img = Sprite.movingSprite(Sprite.balloom_left1, Sprite.balloom_left2,
+                        Sprite.balloom_left3, timing, 30).getFxImage();
                 timing++;
             } else {
                 upOrDown = true;
@@ -94,13 +79,9 @@ public class Balloon extends Enemy {
                     && BombermanGame.map[(y-1)/32].charAt(x/32) != '*'
                     && BombermanGame.map[(y-1)/32].charAt(x/32) != 'B') {
                 y -= speed;
-                if (timing % 21 == 0) {
-                    img = Sprite.balloom_right1.getFxImage();
-                } else if (timing % 21 == 7) {
-                    img = Sprite.balloom_right2.getFxImage();
-                } else if (timing % 21 == 14) {
-                    img = Sprite.balloom_right3.getFxImage();
-                }
+                img = Sprite.movingSprite(Sprite.balloom_right1, Sprite.balloom_right2,
+                        Sprite.balloom_right3, timing, 30).getFxImage();
+                timing++;
                 timing++;
             } else {
                 upOrDown = false;

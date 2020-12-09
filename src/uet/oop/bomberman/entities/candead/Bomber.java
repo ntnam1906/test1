@@ -2,6 +2,8 @@ package uet.oop.bomberman.entities.candead;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.MultiplayerBombermanGame;
+import uet.oop.bomberman.StartBombermanGame;
 import uet.oop.bomberman.entities.candead.items.Item;
 import uet.oop.bomberman.entities.staticEntity.Door;
 import uet.oop.bomberman.graphics.Sprite;
@@ -16,7 +18,11 @@ public class Bomber extends EntityCanDead {
     private int speed = 1;
     private int sizeOfBoom = 2;
     private int lengthOfBoom = 1;
-    private int heart = 2;
+    private int heart = 3;
+    public boolean goNorth;
+    public boolean goSouth;
+    public boolean goWest;
+    public boolean goEast;
 
     public int getSizeOfBoom() {
         return sizeOfBoom;
@@ -63,12 +69,18 @@ public class Bomber extends EntityCanDead {
     }
 
     public void goDoor() {
+        List<Door> doorList;
+        if (StartBombermanGame.type == 1) {
+            doorList = BombermanGame.doorObjects;
+        } else {
+            doorList = MultiplayerBombermanGame.doorObjects;
+        }
         int X = getLocationX();
-        for (Door door : BombermanGame.doorObjects) {
+        for (Door door : doorList) {
             int X1 = door.getX() / Sprite.SCALED_SIZE;
             int Y1 = door.getY();
             if (X == X1 && y == Y1) {
-                for (Door door1: BombermanGame.doorObjects) {
+                for (Door door1: doorList) {
                     X1 = door1.getX() / Sprite.SCALED_SIZE;
                     Y1 = door1.getY();
                     if (X != X1 || y != Y1) {
@@ -314,19 +326,19 @@ public class Bomber extends EntityCanDead {
     @Override
     public void update() {
         whenDead();
-        if (dead) {
+        if ((dead && timing <= 40) || heart == 0) {
             return;
         }
-        if (BombermanGame.goEast) {
+        if (goEast) {
             goEast();
         } else
-        if (BombermanGame.goWest) {
+        if (goWest) {
             goWest();
         } else
-        if (BombermanGame.goNorth) {
+        if (goNorth) {
             goNorth();
         } else
-        if (BombermanGame.goSouth) {
+        if (goSouth) {
             goSouth();
         } else
         {

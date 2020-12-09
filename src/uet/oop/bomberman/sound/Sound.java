@@ -11,6 +11,9 @@ public class Sound {
     public static void play(String sound) {
         new Thread(new Runnable() {
             public void run() {
+                if (AudioPlayer.isMuted()) {
+                    return;
+                }
                 try {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(

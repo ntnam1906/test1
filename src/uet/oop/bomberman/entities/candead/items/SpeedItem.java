@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.candead.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Sound;
 
 public class SpeedItem extends Item {
     public SpeedItem(int x, int y, Image img) {
@@ -17,6 +18,7 @@ public class SpeedItem extends Item {
         int X = x / Sprite.SCALED_SIZE;
         int Y = y / Sprite.SCALED_SIZE;
         if (bomberX == X && bomberY == Y) {
+            Sound.play("Item");
             if (player.getSpeed() <= 2) {
                 player.setSpeed(player.getSpeed() + 1);
             }
@@ -29,8 +31,4 @@ public class SpeedItem extends Item {
 
     }
 
-    @Override
-    public void update() {
-        takingItem(BombermanGame.player1);
-    }
 }

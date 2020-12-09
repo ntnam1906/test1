@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="500.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="84.0" prefWidth="200.0" style="-fx-border-width: 2px; -fx-border-color: #660000; -fx-background-color: #FFFFCC;">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LEVEL 5">
+               <font>
+                  <Font name="Centaur" size="48.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </HBox.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TIME 200">
+               <font>
+                  <Font name="Centaur" size="30.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="240.0" top="20.0" />
+               </HBox.margin>
+            </Text>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../res/image/heart.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="160.0" top="20.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../res/image/heart.png" />
+               </image>
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../res/image/heart.png" />
+               </image>
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../res/image/heart.png" />
+               </image>
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../res/image/heart.png" />
+               </image>
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+            </ImageView>
+            <MenuButton mnemonicParsing="false" text="MenuButton">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </MenuButton>
+         </children>
+         <StackPane.margin>
+            <Insets bottom="416.0" />
+         </StackPane.margin>
+      </HBox>
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="200.0" style="-fx-background-color: #999999;">
+         <children>
+            <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="120.0" text="Continue">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="120.0" text="Sound: On">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="120.0" text="Menu" />
+         </children>
+      </VBox>
+   </children>
+</StackPane>

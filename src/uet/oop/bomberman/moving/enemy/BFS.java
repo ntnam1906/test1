@@ -6,6 +6,9 @@ import java.util.LinkedList;
 
 public class BFS {
     public static String bfs(int x1, int y1, int x2, int y2) {
+        if (BombermanGame.player1.isDead()) {
+            return " ";
+        }
         if (x1 == x2 && y1 == y2) {
             return " ";
         }

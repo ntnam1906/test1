@@ -25,11 +25,11 @@ public class Sprite {
 	| Board sprites
 	|--------------------------------------------------------------------------
 	 */
-	public static Sprite grass = new Sprite(Sprite.DEFAULT_SIZE, 8, 4, SpriteSheet1.tiles, 16, 16);
-	public static Sprite brick = new Sprite(Sprite.DEFAULT_SIZE, 9, 9, SpriteSheet1.tiles, 16, 16);
-	public static Sprite wall = new Sprite(Sprite.DEFAULT_SIZE, 3, 13, SpriteSheet1.tiles, 16, 16);
-	public static Sprite portal = new Sprite(Sprite.DEFAULT_SIZE, 8, 7, SpriteSheet1.tiles, 14, 14);
-	public static Sprite portal_open = new Sprite(Sprite.DEFAULT_SIZE, 9, 7, SpriteSheet1.tiles, 14, 14);
+	public static Sprite grass = new Sprite(DEFAULT_SIZE, 6, 0, SpriteSheet.tiles, 16, 16);
+	public static Sprite brick = new Sprite(DEFAULT_SIZE, 7, 0, SpriteSheet.tiles, 16, 16);
+	public static Sprite wall = new Sprite(DEFAULT_SIZE, 5, 0, SpriteSheet.tiles, 16, 16);
+	public static Sprite portal = new Sprite(Sprite.DEFAULT_SIZE, 8, 7, SpriteSheet.newTile, 14, 14);
+	public static Sprite portal_open = new Sprite(Sprite.DEFAULT_SIZE, 9, 7, SpriteSheet.newTile, 14, 14);
 	/*
 	|--------------------------------------------------------------------------
 	| Bomber Sprites

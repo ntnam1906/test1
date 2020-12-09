@@ -21,13 +21,13 @@ public class BoomUpdate {
                 break;
             }
             for (Boom boom : boomObjects) {
-                if (boom.getTiming() >= 120) {
+                if (boom.getTiming() >= 180) {
                     continue;
                 }
                 int X = boom.getX() / Sprite.SCALED_SIZE;
                 int Y = boom.getY() / Sprite.SCALED_SIZE;
                 if (X == i && Y == y) {
-                    boom.setTiming(120);
+                    boom.setTiming(180);
                 }
             }
             if (BombermanGame.map[y].charAt(i) == '*') {
@@ -55,13 +55,13 @@ public class BoomUpdate {
                 break;
             }
             for (Boom boom : boomObjects) {
-                if (boom.getTiming() >= 120) {
+                if (boom.getTiming() >= 180) {
                     continue;
                 }
                 int X = boom.getX() / Sprite.SCALED_SIZE;
                 int Y = boom.getY() / Sprite.SCALED_SIZE;
                 if (X == i && Y == y) {
-                    boom.setTiming(120);
+                    boom.setTiming(180);
                 }
             }
             if (BombermanGame.map[y].charAt(i) == '*') {
@@ -89,13 +89,13 @@ public class BoomUpdate {
                 break;
             }
             for (Boom boom : boomObjects) {
-                if (boom.getTiming() >= 120) {
+                if (boom.getTiming() >= 180) {
                     continue;
                 }
                 int X = boom.getX() / Sprite.SCALED_SIZE;
                 int Y = boom.getY() / Sprite.SCALED_SIZE;
                 if (X == x && Y == j) {
-                    boom.setTiming(120);
+                    boom.setTiming(180);
                 }
             }
             if (BombermanGame.map[j].charAt(x) == '*') {
@@ -123,13 +123,13 @@ public class BoomUpdate {
                 break;
             }
             for (Boom boom : boomObjects) {
-                if (boom.getTiming() >= 120) {
+                if (boom.getTiming() >= 180) {
                     continue;
                 }
                 int X = boom.getX() / Sprite.SCALED_SIZE;
                 int Y = boom.getY() / Sprite.SCALED_SIZE;
                 if (X == x && Y == j) {
-                    boom.setTiming(120);
+                    boom.setTiming(180);
                 }
             }
             if (BombermanGame.map[j].charAt(x) == '*') {

@@ -13,7 +13,15 @@ public class Boom extends Entity {
         super(x, y, img);
     }
     private int timing;
+    private int type = 1;
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public int getTiming() {
         return timing;
@@ -30,13 +38,13 @@ public class Boom extends Entity {
         if (timing == 1) {
             Sound.play("BOM_SET");
         }
-        if (timing >= 130) {
+        if (timing >= 190) {
             img = Sprite.bomb_exploded2.getFxImage();
-        } else if (timing >= 125) {
+        } else if (timing >= 185) {
             img = Sprite.bomb_exploded1.getFxImage();
-        } else if (timing >= 120) {
+        } else if (timing >= 180) {
             img = Sprite.bomb_exploded.getFxImage();
-            if (timing == 120) Sound.play("BOM_11_M");
+            if (timing == 180) Sound.play("BOM_11_M");
         } else if (timing % 30 == 0) {
             img = Sprite.bomb.getFxImage();
         } else if (timing % 30 == 10) {
@@ -50,7 +58,7 @@ public class Boom extends Entity {
             BombermanGame.map[Y] = BombermanGame.map[Y].substring(0, X) + "B"
                     + BombermanGame.map[Y].substring(X + 1);
         }
-        if (timing == 134) {
+        if (timing == 189) {
             int X = x / Sprite.SCALED_SIZE;
             int Y = y / Sprite.SCALED_SIZE;
             BombermanGame.map[Y] = BombermanGame.map[Y].substring(0, X) + " "

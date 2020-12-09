@@ -2,8 +2,12 @@ package uet.oop.bomberman.entities.candead;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.MultiplayerBombermanGame;
+import uet.oop.bomberman.StartBombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.staticEntity.Door;
+
+import java.util.List;
 
 public abstract class EntityCanDead extends Entity {
 
@@ -12,11 +16,17 @@ public abstract class EntityCanDead extends Entity {
     protected int timing;
 
     public void goDoor() {
-        for (Door door : BombermanGame.doorObjects) {
+        List<Door> doorList;
+        if (StartBombermanGame.type == 1) {
+            doorList = BombermanGame.doorObjects;
+        } else {
+            doorList = MultiplayerBombermanGame.doorObjects;
+        }
+        for (Door door : doorList) {
             int X = door.getX();
             int Y = door.getY();
             if (x == X && y == Y) {
-                for (Door door1 : BombermanGame.doorObjects) {
+                for (Door door1 : doorList) {
                     X = door1.getX();
                     Y = door1.getY();
                     if (x != X || y != Y) {

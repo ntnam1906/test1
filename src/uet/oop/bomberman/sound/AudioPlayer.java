@@ -8,6 +8,15 @@ import javax.sound.sampled.Clip;
 
 public class AudioPlayer implements Runnable {
     private static boolean muted = false;
+
+    public static boolean isMuted() {
+        return muted;
+    }
+
+    public static void setMuted(boolean muted) {
+        AudioPlayer.muted = muted;
+    }
+
     private Clip clip;
 
     public AudioPlayer(String sound) {
