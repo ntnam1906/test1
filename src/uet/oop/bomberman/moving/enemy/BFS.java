@@ -1,6 +1,6 @@
 package uet.oop.bomberman.moving.enemy;
 
-import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.mainplay.BombermanGame;
 
 import java.util.LinkedList;
 

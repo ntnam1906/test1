@@ -1,19 +1,13 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.mainplay;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -21,10 +15,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import uet.oop.bomberman.StartBombermanGame;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.candead.Bomber;
 import uet.oop.bomberman.entities.candead.Brick;
-import uet.oop.bomberman.entities.candead.EntityCanDead;
 import uet.oop.bomberman.entities.candead.enemy.*;
 import uet.oop.bomberman.entities.candead.items.*;
 import uet.oop.bomberman.entities.staticEntity.Door;
@@ -35,6 +29,7 @@ import uet.oop.bomberman.graphics.ChangeSprite;
 import uet.oop.bomberman.graphics.RenderImage;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.loadmap.LoadMap;
+import uet.oop.bomberman.moving.player.AI;
 import uet.oop.bomberman.sound.AudioPlayer;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.update.createBoom.BoomUpdate;
@@ -49,15 +44,15 @@ import java.util.Random;
 
 public class BombermanGame extends Application {
     
-    public static int WIDTH = 31;
-    public static int HEIGHT = 13;
+    public static int WIDTH = 13;
+    public static int HEIGHT = 31;
     public static String[] map;
-    public static int time = 12000;
+    public static int time = 18000;
 
     private boolean winner = false;
     private boolean pause = false;
     private int startX, startY;
-    private int level = 3;
+    private int level = 1;
     public static Bomber player1;
     public static List<Door> doorObjects = new ArrayList<>();
     private static GraphicsContext gc;
@@ -78,17 +73,19 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         AudioPlayer mainSound = new AudioPlayer("soundtrack");
-        time = 12000;
+        time = 18000;
         mainSound.run();
+        createMap("res/levels/Level" + level + ".txt");
+
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
         StackPane root = new StackPane();
-        root.setMinSize(992, 500);
-        root.setPrefSize(992, 500);
-        root.setMaxSize(992, 500);
+        //root.setMinSize(992, 500);
+        //root.setPrefSize(992, 500);
+        //root.setMaxSize(992, 500);
 
         // Tao hbox o tren
         HBox front = new HBox();
@@ -186,7 +183,7 @@ public class BombermanGame extends Application {
             public void handle(long l) {
                 render();
                 update();
-                if (time == 12000) {
+                if (time == 18000) {
                     levelText.setText("LEVEL " + level);
                 }
                 timeText.setText("TIME " + time/60);
@@ -210,12 +207,6 @@ public class BombermanGame extends Application {
                     winnerImage.setVisible(true);
                     Sound.play("win");
 
-                    /*StartBombermanGame main = new StartBombermanGame();
-                    try {
-                        main.start(stage);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
                 }
                 if (player1.getHeart() >= 1) heart1.setVisible(true); else heart1.setVisible(false);
                 if (player1.getHeart() >= 2) heart2.setVisible(true); else heart2.setVisible(false);
@@ -267,6 +258,9 @@ public class BombermanGame extends Application {
                     if (map[player1.getLocationY()].charAt(player1.getLocationX()) == 'B') {
                         break;
                     }
+                    if (player1.isDead() && player1.getTiming() <= 40) {
+                        break;
+                    }
                     Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
                     boomObjects.add(boom);
                     break;
@@ -293,7 +287,7 @@ public class BombermanGame extends Application {
                 case RIGHT: player1.goEast  = false; break;
             }
         });
-        createMap("res/levels/Level" + level + ".txt");
+
     }
 
     public void createMap(String input) {
@@ -341,6 +335,22 @@ public class BombermanGame extends Application {
                     stillObjects.add(object);
                     objectEntity = new Oneal(i, j, Sprite.oneal_right1.getFxImage());
                     enemyObjects.add((Enemy)objectEntity);
+                } else if (map[j].charAt(i) == '3') {
+                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                    stillObjects.add(object);
+                    objectEntity = new Ghost(i, j, Sprite.ghost_left1.getFxImage());
+                    enemyObjects.add((Enemy)objectEntity);
+                }
+                else if (map[j].charAt(i) == '4') {
+                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                    stillObjects.add(object);
+                    objectEntity = new CoinRed(i, j, Sprite.coinRed_left1.getFxImage());
+                    enemyObjects.add((Enemy)objectEntity);
+                } else if (map[j].charAt(i) == '5') {
+                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                    stillObjects.add(object);
+                    objectEntity = new Doll(i, j, Sprite.doll_left1.getFxImage());
+                    enemyObjects.add((Enemy) objectEntity);
                 } else if (map[j].charAt(i) == 'b') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
@@ -396,28 +406,11 @@ public class BombermanGame extends Application {
                     }
                     itemObjects.add(itemObject);
                     BombermanGame.map[j] = BombermanGame.map[j].substring(0, i) + "*" + BombermanGame.map[j].substring(i + 1);
-                } else if (map[j].charAt(i) == '3') {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                    stillObjects.add(object);
-                    objectEntity = new Ghost(i, j, Sprite.ghost_left1.getFxImage());
-                    enemyObjects.add((Enemy)objectEntity);
-                }
-                else if (map[j].charAt(i) == '4') {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                    stillObjects.add(object);
-                    objectEntity = new CoinRed(i, j, Sprite.coinRed_left1.getFxImage());
-                    enemyObjects.add((Enemy)objectEntity);
                 } else if (map[j].charAt(i) == 'd') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
                     objectEntity = new Door(i, j, Sprite.door.getFxImage());
                     doorObjects.add((Door)objectEntity);
-                }
-                else if (map[j].charAt(i) == '5') {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                    stillObjects.add(object);
-                    objectEntity = new Doll(i, j, Sprite.doll_left1.getFxImage());
-                    enemyObjects.add((Enemy) objectEntity);
                 } else {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
@@ -478,7 +471,7 @@ public class BombermanGame extends Application {
                         clearAll();
                         ++level;
                         createMap("res/levels/Level" + level + ".txt");
-                        time = 12000;
+                        time = 18000;
                         return;
                     } else {
                         winner = true;
@@ -510,8 +503,28 @@ public class BombermanGame extends Application {
         doorObjects.clear();
         brickObjects.clear();
     }
+    public void AIupdate() {
+        if (player1.getY() % 32 != 0 || (player1.getX() % 32 != 0 && player1.getX() % 32 != 1 && player1.getY() % 32 != 1 )) {
+            return;
+        }
+        player1.goWest = false;
+        player1.goEast = false;
+        player1.goSouth = false;
+        player1.goNorth = false;
+        if (AI.placeBomb(player1, boomObjects, itemObjects, enemyObjects)) {
+            Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
+            boomObjects.add(boom);
+        }
+        switch (AI.directionToGo(player1, boomObjects, itemObjects, enemyObjects)) {
+            case 0: player1.goSouth = true; break;
+            case 1: player1.goNorth = true; break;
+            case 2: player1.goWest = true; break;
+            case 3: player1.goEast = true; break;
+        }
+    }
 
     public void update() {
+        //AIupdate(); //AI chua hoan thien
         boomObjects.forEach(Boom::update);
         boomExplodeds.forEach(BoomExploded::update);
         brickObjects.forEach(Brick::update);

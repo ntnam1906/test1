@@ -1,6 +1,6 @@
 package uet.oop.bomberman.update.createBoom;
 
-import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.mainplay.BombermanGame;
 import uet.oop.bomberman.entities.candead.Bomber;
 import uet.oop.bomberman.entities.Boom;
 import uet.oop.bomberman.entities.BoomExploded;

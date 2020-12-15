@@ -21,7 +21,7 @@ public class PlayerDead {
             }
         }
         for (Boom boom : booms) {
-            if (boom.getTiming() < 120) {
+            if (boom.getTiming() < 180) {
                 continue;
             }
             int X = boom.getX() / Sprite.SCALED_SIZE;
@@ -31,14 +31,14 @@ public class PlayerDead {
                 player.setTiming(0);
             }
         }
-        X1 = (player.getX() + 2);
-        Y1 = (player.getY() + 2);
-        int X2 = (player.getX() + 22);
-        int Y2 = (player.getY() + 2);
-        int X3 = (player.getX() + 2);
-        int Y3 = (player.getY() + 30);
-        int X4 = (player.getX() + 22);
-        int Y4 = (player.getY() + 30);
+        X1 = (player.getX() + 8);
+        Y1 = (player.getY() + 8);
+        int X2 = (player.getX() + 16);
+        int Y2 = (player.getY() + 8);
+        int X3 = (player.getX() + 8);
+        int Y3 = (player.getY() + 24);
+        int X4 = (player.getX() + 16);
+        int Y4 = (player.getY() + 24);
 
         for (Entity enemy : enemyObjects) {
             int X = enemy.getX();

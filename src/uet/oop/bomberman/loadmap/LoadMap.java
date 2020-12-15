@@ -1,5 +1,7 @@
 package uet.oop.bomberman.loadmap;
 
+import uet.oop.bomberman.mainplay.BombermanGame;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Scanner;
@@ -11,6 +13,8 @@ public class LoadMap {
             int level = sc.nextInt();
             int height = sc.nextInt();
             int width = sc.nextInt();
+            BombermanGame.WIDTH = width;
+            BombermanGame.HEIGHT = height;
             String[] s = new String[height];
             s[0] = sc.nextLine();
             for (int i = 0; i < height; ++i) {

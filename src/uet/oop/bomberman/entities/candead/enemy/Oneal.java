@@ -1,9 +1,8 @@
 package uet.oop.bomberman.entities.candead.enemy;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.mainplay.BombermanGame;
 import uet.oop.bomberman.moving.enemy.BFS;
-import uet.oop.bomberman.entities.candead.EntityCanDead;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.moving.enemy.MovingRandom;
 import uet.oop.bomberman.sound.Sound;

@@ -41,20 +41,20 @@ public class ChangeSprite {
 
     public static void changeToSecondPlayer() {
         Sprite.player_up = new Sprite(16, 4, 0, SpriteSheet.player, 12, 15);
-        Sprite.player_down = new Sprite(16, 2, 0, SpriteSheet.player, 13, 16);
-        Sprite.player_left = new Sprite(16, 0, 0, SpriteSheet.player, 14, 16);
-        Sprite.player_right = new Sprite(16, 7, 0, SpriteSheet.player, 14, 16);
+        Sprite.player_down = new Sprite(16, 2, 0, SpriteSheet.player, 12, 16);
+        Sprite.player_left = new Sprite(16, 0, 0, SpriteSheet.player, 12, 16);
+        Sprite.player_right = new Sprite(16, 7, 0, SpriteSheet.player, 12, 16);
 
         Sprite.player_up_1 = new Sprite(16, 5, 0, SpriteSheet.player, 12, 15);
         Sprite.player_up_2 = Sprite.player_up; //new Sprite(16, 0, 2, SpriteSheet.player, 12, 15);
 
-        Sprite.player_down_1 = new Sprite(16, 3, 0, SpriteSheet.player, 13, 16);
+        Sprite.player_down_1 = new Sprite(16, 3, 0, SpriteSheet.player, 12, 16);
         Sprite.player_down_2 = Sprite.player_down; //new Sprite(16, 2, 2, SpriteSheet.player, 12, 16);
 
-        Sprite.player_left_1 = new Sprite(16, 1, 0, SpriteSheet.player, 13, 15);
+        Sprite.player_left_1 = new Sprite(16, 1, 0, SpriteSheet.player, 12, 15);
         Sprite.player_left_2 = Sprite.player_left; //new Sprite(16, 3, 2, SpriteSheet.player, 12 ,16);
 
-        Sprite.player_right_1 = new Sprite(16, 6, 0, SpriteSheet.player, 13, 15);
+        Sprite.player_right_1 = new Sprite(16, 6, 0, SpriteSheet.player, 12, 15);
         Sprite.player_right_2 = Sprite.player_right; //new Sprite(16, 1, 2, SpriteSheet.player, 12, 16);
 
         Sprite.player_dead1 = new Sprite(16, 0, 1, SpriteSheet.player, 16, 16);

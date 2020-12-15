@@ -1,8 +1,8 @@
 package uet.oop.bomberman.entities.candead.items;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.MultiplayerBombermanGame;
+import uet.oop.bomberman.mainplay.BombermanGame;
+import uet.oop.bomberman.mainplay.MultiplayerBombermanGame;
 import uet.oop.bomberman.StartBombermanGame;
 import uet.oop.bomberman.entities.candead.Bomber;
 import uet.oop.bomberman.entities.candead.EntityCanDead;

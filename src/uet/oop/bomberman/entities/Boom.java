@@ -1,12 +1,9 @@
 package uet.oop.bomberman.entities;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.mainplay.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Boom extends Entity {
     public Boom(int x, int y, Image img) {

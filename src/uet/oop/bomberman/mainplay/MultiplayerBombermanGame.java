@@ -1,4 +1,4 @@
-package uet.oop.bomberman;
+package uet.oop.bomberman.mainplay;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import uet.oop.bomberman.StartBombermanGame;
 import uet.oop.bomberman.entities.Boom;
 import uet.oop.bomberman.entities.BoomExploded;
 import uet.oop.bomberman.entities.Entity;
@@ -44,9 +45,8 @@ import java.util.Random;
 
 public class MultiplayerBombermanGame extends Application {
     
-    public static int WIDTH = 31;
-    public static int HEIGHT = 13;
-    public static int time = 12000;
+
+    public static int time = 18000;
 
     private int p1startX, p1startY;
     private int p2startX, p2startY;
@@ -76,10 +76,10 @@ public class MultiplayerBombermanGame extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         AudioPlayer mainSound = new AudioPlayer("soundtrack");
-        time = 12000;
+        time = 18000;
         mainSound.run();
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        canvas = new Canvas(Sprite.SCALED_SIZE * BombermanGame.WIDTH, Sprite.SCALED_SIZE * BombermanGame.HEIGHT);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
@@ -252,6 +252,9 @@ public class MultiplayerBombermanGame extends Application {
                     if (BombermanGame.map[player2.getLocationY()].charAt(player2.getLocationX()) == 'B') {
                         break;
                     }
+                    if (player2.isDead() && player2.getTiming() <= 40) {
+                        break;
+                    }
                     Boom boom = new Boom(player2.getLocationX(), player2.getLocationY(), Sprite.bomb.getFxImage());
                     boom.setType(2);
                     boomObjects.add(boom);
@@ -267,6 +270,9 @@ public class MultiplayerBombermanGame extends Application {
                         break;
                     }
                     if (BombermanGame.map[player1.getLocationY()].charAt(player1.getLocationX()) == 'B') {
+                        break;
+                    }
+                    if (player1.isDead() && player1.getTiming() <= 40) {
                         break;
                     }
                     Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
@@ -314,8 +320,8 @@ public class MultiplayerBombermanGame extends Application {
             ChangeSprite.changeToSecondTheme();
         }
         BombermanGame.map = LoadMap.loadMap(input);
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
+        for (int i = 0; i < BombermanGame.WIDTH; i++) {
+            for (int j = 0; j < BombermanGame.HEIGHT; j++) {
                 Entity object;
                 Entity objectEntity;
                 if (BombermanGame.map[j].charAt(i) == '#') {
@@ -525,7 +531,7 @@ public class MultiplayerBombermanGame extends Application {
         if (time == 0) {
             clearAll();
             createMap("res/multimap/Map1" + ".txt");
-            time = 12000;
+            time = 18000;
         }
     }
 
