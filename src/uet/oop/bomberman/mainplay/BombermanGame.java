@@ -44,8 +44,8 @@ import java.util.Random;
 
 public class BombermanGame extends Application {
     
-    public static int WIDTH = 13;
-    public static int HEIGHT = 31;
+    public static int WIDTH = 31;
+    public static int HEIGHT = 13;
     public static String[] map;
     public static int time = 18000;
 
@@ -76,6 +76,7 @@ public class BombermanGame extends Application {
         time = 18000;
         mainSound.run();
         createMap("res/levels/Level" + level + ".txt");
+        ChangeSprite.changeToFirstPlayer();
 
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
@@ -188,18 +189,17 @@ public class BombermanGame extends Application {
                 }
                 timeText.setText("TIME " + time/60);
                 --time;
+                //neu thua
                 if ((player1.isDead() && player1.getHeart() == 0 && player1.getTiming() == 120)
                         || time == 0) {
                     clearAll();
-                    StartBombermanGame main = new StartBombermanGame();
                     this.stop();
                     mainSound.stop();
-                    try {
-                        main.start(stage);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    winnerImage.setImage(RenderImage.getLose());
+                    winnerImage.setVisible(true);
+                    Sound.play("lose");
                 }
+                //neu win
                 if (winner) {
                     this.stop();
                     clearAll();
@@ -208,6 +208,7 @@ public class BombermanGame extends Application {
                     Sound.play("win");
 
                 }
+                //update heart
                 if (player1.getHeart() >= 1) heart1.setVisible(true); else heart1.setVisible(false);
                 if (player1.getHeart() >= 2) heart2.setVisible(true); else heart2.setVisible(false);
                 if (player1.getHeart() >= 3) heart3.setVisible(true); else heart3.setVisible(false);
@@ -245,6 +246,7 @@ public class BombermanGame extends Application {
             }
         });
 
+        //bat su kien ban phim
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:    player1.goNorth = true; break;

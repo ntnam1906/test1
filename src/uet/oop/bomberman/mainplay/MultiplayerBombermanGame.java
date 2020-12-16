@@ -75,6 +75,7 @@ public class MultiplayerBombermanGame extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        createMap("res/multimap/Map1" + ".txt");
         AudioPlayer mainSound = new AudioPlayer("soundtrack");
         time = 18000;
         mainSound.run();
@@ -307,7 +308,7 @@ public class MultiplayerBombermanGame extends Application {
                 case D: player1.goEast  = false; break;
             }
         });
-        createMap("res/multimap/Map1" + ".txt");
+
     }
 
     public void createMap(String input) {

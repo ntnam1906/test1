@@ -30,4 +30,10 @@ public class RenderImage {
         return image;
     }
 
+    public static Image getLose() {
+        InputStream input = RenderImage.class.getClass().getResourceAsStream("/image/lose.jpg");
+        Image image = new Image(input);
+        return image;
+    }
+
 }

@@ -57,7 +57,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>uet.oop.bomberman.mainplay.BombermanGame</mainClass>
+                            <mainClass>uet.oop.bomberman.StartBombermanGame</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
