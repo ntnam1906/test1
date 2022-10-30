@@ -10,7 +10,6 @@ public class LoadMap {
     public static String[] loadMap(String address) {
         try {
             Scanner sc = new Scanner(new File(address));
-            int level = sc.nextInt();
             int height = sc.nextInt();
             int width = sc.nextInt();
             BombermanGame.WIDTH = width;

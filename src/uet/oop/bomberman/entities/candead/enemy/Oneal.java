@@ -62,8 +62,8 @@ public class Oneal extends Enemy {
         if (x % 32 == 0 && y % 32 == 0) {
             goDoor();
             String road =  BFS.bfs(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE,
-                    BombermanGame.player1.getX() / Sprite.SCALED_SIZE,
-                    BombermanGame.player1.getY() / Sprite.SCALED_SIZE);
+                    BombermanGame.player.getX() / Sprite.SCALED_SIZE,
+                    BombermanGame.player.getY() / Sprite.SCALED_SIZE);
             if (!road.equals(" ") && road.length() <= 10) {
                 speed = 2;
             } else {

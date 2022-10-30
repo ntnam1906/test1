@@ -29,7 +29,6 @@ import uet.oop.bomberman.graphics.ChangeSprite;
 import uet.oop.bomberman.graphics.RenderImage;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.loadmap.LoadMap;
-import uet.oop.bomberman.moving.player.AI;
 import uet.oop.bomberman.sound.AudioPlayer;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.update.createBoom.BoomUpdate;
@@ -53,7 +52,7 @@ public class BombermanGame extends Application {
     private boolean pause = false;
     private int startX, startY;
     private int level = 1;
-    public static Bomber player1;
+    public static Bomber player;
     public static List<Door> doorObjects = new ArrayList<>();
     private static GraphicsContext gc;
     private Canvas canvas;
@@ -76,7 +75,7 @@ public class BombermanGame extends Application {
         time = 18000;
         mainSound.run();
         createMap("res/levels/Level" + level + ".txt");
-        ChangeSprite.changeToFirstPlayer();
+        ChangeSprite.changeToPlayer();
 
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
@@ -84,9 +83,6 @@ public class BombermanGame extends Application {
 
         // Tao root container
         StackPane root = new StackPane();
-        //root.setMinSize(992, 500);
-        //root.setPrefSize(992, 500);
-        //root.setMaxSize(992, 500);
 
         // Tao hbox o tren
         HBox front = new HBox();
@@ -190,7 +186,7 @@ public class BombermanGame extends Application {
                 timeText.setText("TIME " + time/60);
                 --time;
                 //neu thua
-                if ((player1.isDead() && player1.getHeart() == 0 && player1.getTiming() == 120)
+                if ((player.isDead() && player.getHeart() == 0 && player.getTiming() == 120)
                         || time == 0) {
                     clearAll();
                     this.stop();
@@ -209,11 +205,11 @@ public class BombermanGame extends Application {
 
                 }
                 //update heart
-                if (player1.getHeart() >= 1) heart1.setVisible(true); else heart1.setVisible(false);
-                if (player1.getHeart() >= 2) heart2.setVisible(true); else heart2.setVisible(false);
-                if (player1.getHeart() >= 3) heart3.setVisible(true); else heart3.setVisible(false);
-                if (player1.getHeart() >= 4) heart4.setVisible(true); else heart4.setVisible(false);
-                if (player1.getHeart() >= 5) heart5.setVisible(true); else heart5.setVisible(false);
+                if (player.getHeart() >= 1) heart1.setVisible(true); else heart1.setVisible(false);
+                if (player.getHeart() >= 2) heart2.setVisible(true); else heart2.setVisible(false);
+                if (player.getHeart() >= 3) heart3.setVisible(true); else heart3.setVisible(false);
+                if (player.getHeart() >= 4) heart4.setVisible(true); else heart4.setVisible(false);
+                if (player.getHeart() >= 5) heart5.setVisible(true); else heart5.setVisible(false);
             }
         };
 
@@ -249,21 +245,21 @@ public class BombermanGame extends Application {
         //bat su kien ban phim
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case UP:    player1.goNorth = true; break;
-                case DOWN:  player1.goSouth = true; break;
-                case LEFT:  player1.goWest  = true; break;
-                case RIGHT: player1.goEast  = true; break;
+                case UP:    player.goNorth = true; break;
+                case DOWN:  player.goSouth = true; break;
+                case LEFT:  player.goWest  = true; break;
+                case RIGHT: player.goEast  = true; break;
                 case SPACE: {
-                    if (boomObjects.size() >= player1.getSizeOfBoom()) {
+                    if (boomObjects.size() >= player.getSizeOfBoom()) {
                         break;
                     }
-                    if (map[player1.getLocationY()].charAt(player1.getLocationX()) == 'B') {
+                    if (map[player.getLocationY()].charAt(player.getLocationX()) == 'B') {
                         break;
                     }
-                    if (player1.isDead() && player1.getTiming() <= 40) {
+                    if (player.isDead() && player.getTiming() <= 40) {
                         break;
                     }
-                    Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
+                    Boom boom = new Boom(player.getLocationX(), player.getLocationY(), Sprite.bomb.getFxImage());
                     boomObjects.add(boom);
                     break;
                 }
@@ -283,10 +279,10 @@ public class BombermanGame extends Application {
         });
         scene.setOnKeyReleased(event -> {
             switch (event.getCode()) {
-                case UP:    player1.goNorth = false; break;
-                case DOWN:  player1.goSouth = false; break;
-                case LEFT:  player1.goWest  = false; break;
-                case RIGHT: player1.goEast  = false; break;
+                case UP:    player.goNorth = false; break;
+                case DOWN:  player.goSouth = false; break;
+                case LEFT:  player.goWest  = false; break;
+                case RIGHT: player.goEast  = false; break;
             }
         });
 
@@ -325,7 +321,7 @@ public class BombermanGame extends Application {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
                     stillObjects.add(object);
                     objectEntity = new Bomber(i, j, Sprite.player_right.getFxImage());
-                    player1 =  (Bomber) objectEntity;
+                    player =  (Bomber) objectEntity;
                     startX = i; startY = j;
                 } else if (map[j].charAt(i) == '1') {
                     object = new Grass(i, j, Sprite.grass.getFxImage());
@@ -424,7 +420,7 @@ public class BombermanGame extends Application {
     public void updateObject() {
         for (int i = 0; i < boomObjects.size(); ++i) {
             if (boomObjects.get(i).getTiming() == 180) {
-                boomExplodeds = BoomUpdate.createBoomExplosion(boomObjects.get(i), player1,
+                boomExplodeds = BoomUpdate.createBoomExplosion(boomObjects.get(i), player,
                         boomExplodeds, brickObjects, boomObjects);
             }
             if (boomObjects.get(i).getTiming() == 195) {
@@ -462,13 +458,13 @@ public class BombermanGame extends Application {
             }
         }
         itemObjects = ItemDead.checkWhenDead(boomObjects, boomExplodeds, itemObjects);
-        if (!player1.isDead()) {
-            PlayerDead.checkWhenDead(player1, boomExplodeds, enemyObjects, boomObjects);
+        if (!player.isDead()) {
+            PlayerDead.checkWhenDead(player, boomExplodeds, enemyObjects, boomObjects);
             for (Portal portal : portalObjects) {
                 if (enemyObjects.size() == 0) {
                     portal.setImg(Sprite.portal_open.getFxImage());
                 }
-                if (portal.nextLevel(player1) == 1 && enemyObjects.size() == 0) {
+                if (portal.nextLevel(player) == 1 && enemyObjects.size() == 0) {
                     if (level < 5) {
                         clearAll();
                         ++level;
@@ -480,18 +476,18 @@ public class BombermanGame extends Application {
                     }
                 }
             }
-        } else if (player1.isDead() && player1.getTiming() == 10) {
-            player1.setHeart(player1.getHeart() - 1);
-        } else if (player1.isDead() && player1.getHeart() > 0 && player1.getTiming() == 40) {
-            player1.setX(startX * Sprite.SCALED_SIZE);
-            player1.setY(startY * Sprite.SCALED_SIZE);
-            player1.setImg(Sprite.player_left.getFxImage());
-            if (player1.getLengthOfBoom() > 1) player1.setLengthOfBoom(player1.getLengthOfBoom() - 1);
-            if (player1.getSizeOfBoom() > 2) player1.setSizeOfBoom(player1.getSizeOfBoom() - 1);
-            if (player1.getSpeed() > 1) player1.setSpeed(player1.getSpeed() - 1);
-        } else if (player1.getTiming() == 220) {
-            player1.setDead(false);
-            player1.setTiming(0);
+        } else if (player.isDead() && player.getTiming() == 10) {
+            player.setHeart(player.getHeart() - 1);
+        } else if (player.isDead() && player.getHeart() > 0 && player.getTiming() == 40) {
+            player.setX(startX * Sprite.SCALED_SIZE);
+            player.setY(startY * Sprite.SCALED_SIZE);
+            player.setImg(Sprite.player_left.getFxImage());
+            if (player.getLengthOfBoom() > 1) player.setLengthOfBoom(player.getLengthOfBoom() - 1);
+            if (player.getSizeOfBoom() > 2) player.setSizeOfBoom(player.getSizeOfBoom() - 1);
+            if (player.getSpeed() > 1) player.setSpeed(player.getSpeed() - 1);
+        } else if (player.getTiming() == 220) {
+            player.setDead(false);
+            player.setTiming(0);
         }
     }
 
@@ -505,34 +501,14 @@ public class BombermanGame extends Application {
         doorObjects.clear();
         brickObjects.clear();
     }
-    public void AIupdate() {
-        if (player1.getY() % 32 != 0 || (player1.getX() % 32 != 0 && player1.getX() % 32 != 1 && player1.getY() % 32 != 1 )) {
-            return;
-        }
-        player1.goWest = false;
-        player1.goEast = false;
-        player1.goSouth = false;
-        player1.goNorth = false;
-        if (AI.placeBomb(player1, boomObjects, itemObjects, enemyObjects)) {
-            Boom boom = new Boom(player1.getLocationX(), player1.getLocationY(), Sprite.bomb.getFxImage());
-            boomObjects.add(boom);
-        }
-        switch (AI.directionToGo(player1, boomObjects, itemObjects, enemyObjects)) {
-            case 0: player1.goSouth = true; break;
-            case 1: player1.goNorth = true; break;
-            case 2: player1.goWest = true; break;
-            case 3: player1.goEast = true; break;
-        }
-    }
 
     public void update() {
-        //AIupdate(); //AI chua hoan thien
         boomObjects.forEach(Boom::update);
         boomExplodeds.forEach(BoomExploded::update);
         brickObjects.forEach(Brick::update);
         itemObjects.forEach(Item::update);
         enemyObjects.forEach(Entity::update);
-        player1.update();
+        player.update();
         portalObjects.forEach(Portal::update);
         updateObject();
     }
@@ -547,6 +523,6 @@ public class BombermanGame extends Application {
         itemObjects.forEach(g -> g.render(gc));
         brickObjects.forEach(g -> g.render(gc));
         enemyObjects.forEach(g -> g.render(gc));
-        player1.render(gc);
+        player.render(gc);
     }
 }

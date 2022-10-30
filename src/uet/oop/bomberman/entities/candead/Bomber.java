@@ -2,7 +2,6 @@ package uet.oop.bomberman.entities.candead;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.mainplay.BombermanGame;
-import uet.oop.bomberman.mainplay.MultiplayerBombermanGame;
 import uet.oop.bomberman.StartBombermanGame;
 import uet.oop.bomberman.entities.staticEntity.Door;
 import uet.oop.bomberman.graphics.Sprite;
@@ -69,11 +68,8 @@ public class Bomber extends EntityCanDead {
 
     public void goDoor() {
         List<Door> doorList;
-        if (StartBombermanGame.type == 1) {
-            doorList = BombermanGame.doorObjects;
-        } else {
-            doorList = MultiplayerBombermanGame.doorObjects;
-        }
+        doorList = BombermanGame.doorObjects;
+
         int X = getLocationX();
         for (Door door : doorList) {
             int X1 = door.getX() / Sprite.SCALED_SIZE;

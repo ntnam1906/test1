@@ -11,7 +11,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uet.oop.bomberman.mainplay.BombermanGame;
-import uet.oop.bomberman.mainplay.MultiplayerBombermanGame;
 import uet.oop.bomberman.sound.AudioPlayer;
 
 import java.io.IOException;
@@ -67,21 +66,6 @@ public class StartBombermanGame extends Application {
             }
         });
 
-        //Double Play button
-        Button doublePlay = new Button("2 players");
-        doublePlay.setMaxWidth(150);
-        doublePlay.setMinWidth(150);
-        doublePlay.setPrefWidth(150);
-        doublePlay.setOnAction(event -> {
-            type = 2;
-            startMusic.stop();
-            MultiplayerBombermanGame newGame = new MultiplayerBombermanGame();
-            try {
-                newGame.start(primaryStage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
         //Sound button
         Button soundButton = new Button();
@@ -112,9 +96,8 @@ public class StartBombermanGame extends Application {
         });
 
 
-        vBox.getChildren().addAll(playButton, doublePlay, soundButton, exitButton);
+        vBox.getChildren().addAll(playButton, soundButton, exitButton);
         VBox.setMargin(playButton, new Insets(0, 0, 30, 0));
-        VBox.setMargin(doublePlay, new Insets(0, 0, 30, 0));
         VBox.setMargin(soundButton, new Insets(0, 0, 30, 0));
         VBox.setMargin(exitButton, new Insets(0, 0, 80, 0));
 
